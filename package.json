@@ -11,5 +11,12 @@
     "Angular2"
   ],
   "author": "SOACat",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "mongodb": "^2.2.11"
+  },
+  "repository": {
+  "type": "git",
+  "url": "https://github.com/SOACAt/MongoDibi.git"
+}
 }
