@@ -1,0 +1,15 @@
+{
+  "name": "mongodibi",
+  "version": "1.0.0",
+  "description": "UI for MongoDB",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "MondoDB",
+    "Angular2"
+  ],
+  "author": "SOACat",
+  "license": "ISC"
+}
