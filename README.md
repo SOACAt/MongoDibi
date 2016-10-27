@@ -1,2 +1,0 @@
-# Mongo Db UI
-Inicializing
