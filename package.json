@@ -1,0 +1,28 @@
+{
+  "name": "mongodibi",
+  "version": "1.0.0",
+  "description": "UI for MongoDB",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SOACAt/MongoDibi.git"
+  },
+  "keywords": [
+    "MongoDB",
+    "electron.io",
+    "angular2"
+  ],
+  "author": "SOACat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SOACAt/MongoDibi/issues"
+  },
+  "homepage": "https://github.com/SOACAt/MongoDibi#readme",
+  "devDependencies": {
+    "electron-prebuilt": "^1.4.5"
+  }
+}
