@@ -1,0 +1,9 @@
+
+
+
+pels tipus de typescript
+
+npm i --save @types/node
+npm i --save @types/mongodb
+
+etc

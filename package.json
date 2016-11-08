@@ -4,7 +4,7 @@
   "description": "UI for MongoDB",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
+    "start": "tsc && electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,5 +24,9 @@
   "homepage": "https://github.com/SOACAt/MongoDibi#readme",
   "devDependencies": {
     "electron-prebuilt": "^1.4.5"
+  },
+  "dependencies": {
+    "@types/node": "^6.0.46",
+    "mongodb": "^2.2.11"
   }
 }
