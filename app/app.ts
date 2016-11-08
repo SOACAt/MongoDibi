@@ -1,5 +1,6 @@
 import MgoClient = require("./domain")
 
+
 class MgoConnections {
     private __name: string;
     private __mongoClient: MgoClient;
@@ -23,16 +24,16 @@ class MgoConnections {
 }
 
 class App {
-    __mgoConnections: Array<MgoConnections> = null;
+    private __mgoConnections: Array<MgoConnections> = null;
 
     GetConnections(): Array<string> {
         var ret: Array<string> = null;
-        
+
         if (this.__mgoConnections.length > 0) {
             ret=new Array<string>();
-            this.__mgoConnections.forEach((element, index, array) => {
-                ret.push(element.Name);
-            });
+            for (var i=0;i<this.__mgoConnections.length;i++)
+                ret.push(this.__mgoConnections[i].Name);
+            
         }
 
 

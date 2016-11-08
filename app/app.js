@@ -36,9 +36,8 @@ var App = (function () {
         var ret = null;
         if (this.__mgoConnections.length > 0) {
             ret = new Array();
-            this.__mgoConnections.forEach(function (element, index, array) {
-                ret.push(element.Name);
-            });
+            for (var i = 0; i < this.__mgoConnections.length; i++)
+                ret.push(this.__mgoConnections[i].Name);
         }
         return ret;
     };
