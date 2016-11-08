@@ -10,6 +10,7 @@ var MainModule;
         }
         var mc = new MgoClient(server, port, user, pwd);
         app.AddConnection(mc);
+        mc.ListDatabases();
         alert("Ok");
     }
     MainModule.AddConnection = AddConnection;

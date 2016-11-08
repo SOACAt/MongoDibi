@@ -13,7 +13,7 @@ var MgoClient = (function () {
     }
     MgoClient.prototype.ListDatabases = function () {
         var MongoClient = new mongodb.MongoClient();
-        var url = 'mongodb://localhost:27017/test';
+        var url = 'mongodb://' + this._server + ':' + this._port + '/test';
         MongoClient.connect(url, function (err, db) {
             var adminDb = db.admin();
             adminDb.listDatabases(function (err, dbs) {
