@@ -9,12 +9,13 @@ button.addEventListener('click', function () {
 }, false);
 button2.addEventListener('click', function () {
     var connections = MM.MainModule.GetConnections();
-    if (connections.length > 0)
-        for (var i = 0; i < connections.length; i++) {
-            var ele = document.createElement("div");
-            ele.textContent = connections[i];
-            document.body.appendChild(ele);
-        }
+    if (connections !== null)
+        if (connections.length > 0)
+            for (var i = 0; i < connections.length; i++) {
+                var ele = document.createElement("div");
+                ele.textContent = connections[i];
+                document.body.appendChild(ele);
+            }
 }, false);
 document.body.appendChild(button);
 document.body.appendChild(button2);
