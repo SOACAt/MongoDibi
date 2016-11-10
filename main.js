@@ -1,16 +1,18 @@
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, ipcMain, menu} = require('electron')
 const path = require('path')
 const url = require('url')
-const mongoclient = require('mongodb').MongoClient
+const S = require("./win/__sss")
+
 
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
 
-function createWindow () {
+
+function createWindow() {
   // Create the browser window.
-  win = new BrowserWindow({width: 800, height: 600})
+  win = new BrowserWindow({ width: 800, height: 600, icon: './win/img/logodivi.png' })
 
   // and load the index.html of the app.
   win.loadURL(url.format({
@@ -29,6 +31,35 @@ function createWindow () {
     // when you should delete the corresponding element.
     win = null
   })
+
+  //other windows
+
+
+
+
+
+  ipcMain.on(S.Win_connection_add, (event, arg) => {
+    console.log(S.Win_connection_add);
+    
+    var modalPath = path.join('file://', __dirname, './win/connection_add.html')
+    var Win_connection_add = new BrowserWindow({ 
+      width: 600, 
+      height: 400, 
+      show: false, 
+      modal:true, 
+      parent: win,
+      minimizable: false,
+      maximizable: false,
+      movable:false,
+      resizable: false
+     })
+    Win_connection_add.setMenu(null);
+    Win_connection_add.loadURL(modalPath)
+    Win_connection_add.show();
+    event.returnValue = 'pong';
+
+  });
+
 }
 
 // This method will be called when Electron has finished
@@ -55,3 +86,5 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+// http://electron.atom.io/docs/api/ipc-main/

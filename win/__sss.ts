@@ -1,0 +1,1 @@
+export const Win_connection_add = "open-connection_add";
