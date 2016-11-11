@@ -25,6 +25,8 @@ class MgoClient {
         return this._user;
     }
 
+    
+
     GetName():string{
         return (this._server+this._port+this._user).toString();
     }

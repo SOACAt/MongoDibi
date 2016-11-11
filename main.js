@@ -44,7 +44,7 @@ function createWindow() {
     var modalPath = path.join('file://', __dirname, './win/connection_add.html')
     var Win_connection_add = new BrowserWindow({ 
       width: 600, 
-      height: 400, 
+      height: 420, 
       show: false, 
       modal:true, 
       parent: win,

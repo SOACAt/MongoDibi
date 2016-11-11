@@ -1,13 +1,33 @@
+import mongodb = require('mongodb');
+
 
 document.getElementById("btnSave").addEventListener("click",
-()=>{
+    () => {
 
-    alert('save');
+        alert('save');
 
-});
+    });
 document.getElementById("btnTest").addEventListener("click",
-()=>{
+    () => {
+        var url = 'mongodb://localhost:27017';
+        var mongoClient = new mongodb.MongoClient();
+        mongoClient.connect(url,function (err, mongoClient) {
+            if (err===null){
+                mongoClient.close();
+                ShowResult("test passed!!",false);
+            }else{
+                ShowResult("test NOT passed!!",true);
+            }
+        });
 
-    alert('test');
-
-});
+    });
+    
+function ShowResult(resultat:string, error:boolean){
+    var color="#0000FF"
+    if (error===true){
+        color="#FF0000";
+    }
+    var _resobj=document.getElementById("Resultat");
+    _resobj.style.color=color;
+    _resobj.innerText=resultat;
+};
