@@ -12,11 +12,11 @@ let win
 
 function createWindow() {
   // Create the browser window.
-  win = new BrowserWindow({ width: 800, height: 600, icon: './win/img/logodivi.png' })
+  win = new BrowserWindow({ width: 800, height: 600, icon: S.Win_Icon })
 
   // and load the index.html of the app.
   win.loadURL(url.format({
-    pathname: path.join(__dirname, 'index.html'),
+    pathname: path.join(__dirname, S.HTML_Index),
     protocol: 'file:',
     slashes: true
   }))
@@ -38,10 +38,10 @@ function createWindow() {
 
 
 
-  ipcMain.on(S.Win_connection_add, (event, arg) => {
-    console.log(S.Win_connection_add);
+  ipcMain.on(S.Win_connection_add_msg, (event, arg) => {
+    console.log(S.Win_connection_add_msg);
     
-    var modalPath = path.join('file://', __dirname, './win/connection_add.html')
+    var modalPath = path.join('file://', __dirname, S.HTML_Connection_Add)
     var Win_connection_add = new BrowserWindow({ 
       width: 600, 
       height: 420, 
@@ -51,12 +51,13 @@ function createWindow() {
       minimizable: false,
       maximizable: false,
       movable:false,
-      resizable: false
+      resizable: false,
+      icon: S.Win_Icon
      })
     Win_connection_add.setMenu(null);
     Win_connection_add.loadURL(modalPath)
     Win_connection_add.show();
-    event.returnValue = 'pong';
+    event.returnValue = 'pong'; //importantíssim
 
   });
 

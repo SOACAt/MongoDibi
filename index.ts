@@ -8,7 +8,7 @@ import MM = require("./app/module");
 
 VW.ViewModule.CreateBody();
 VW.ViewModule.AddHeaderMenuIconButton("icon-database", () => {
-    ipcRenderer.sendSync(S.Win_connection_add, 'ping');
+    ipcRenderer.sendSync(S.Win_connection_add_msg, '');
 });
 VW.ViewModule.AddHeaderMenuIconButton("icon-shuffle", () => { alert('shuffle') });
 
