@@ -1,9 +1,15 @@
 import mongodb = require('mongodb');
-
+const {ipcRenderer} = require('electron')
+const S = require("./__sss")
 
 document.getElementById("btnSave").addEventListener("click",
     () => {
+        var server: any = document.getElementById("Server");
+        var port: any = document.getElementById("Port");
+        var username: any = document.getElementById("Username");
+        var password: any = document.getElementById("Password");
 
+        ipcRenderer.sendSync(S.Win_connection_add_msg, '');
         alert('Save');
 
     });
@@ -59,9 +65,9 @@ function ShowResult(resultat: string, error: boolean) {
         _resobj.style.color = color;
         _resobj.innerText = resultat;
     } else {
-        var modalText:any=document.getElementById("modalText")
-        modalText.innerText=resultat;
-        var modal:any = document.getElementById('myModal');
+        var modalText: any = document.getElementById("modalText")
+        modalText.innerText = resultat;
+        var modal: any = document.getElementById('myModal');
         modal.style.display = "block";
     }
 
