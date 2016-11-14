@@ -1,7 +1,11 @@
 "use strict";
 var mongodb = require('mongodb');
 document.getElementById("btnSave").addEventListener("click", function () {
-    alert('save');
+    alert('Save');
+});
+document.getElementById("btnCancel").addEventListener("click", function () {
+    var modal = document.getElementById('myModal');
+    modal.style.display = "none";
 });
 document.getElementById("btnTest").addEventListener("click", function () {
     ShowResult('', false);
@@ -22,7 +26,7 @@ document.getElementById("btnTest").addEventListener("click", function () {
         mongoClient.connect(url, function (err, mongoClient) {
             if (err === null) {
                 mongoClient.close();
-                ShowResult("test passed!!", false);
+                ShowResult("Test passed!! Do you want save the connection?", false);
             }
             else {
                 ShowResult("test NOT passed!!", true);
@@ -37,10 +41,16 @@ function ShowResult(resultat, error) {
     var color = "#0000FF";
     if (error === true) {
         color = "#FF0000";
+        var _resobj = document.getElementById("Resultat");
+        _resobj.style.color = color;
+        _resobj.innerText = resultat;
     }
-    var _resobj = document.getElementById("Resultat");
-    _resobj.style.color = color;
-    _resobj.innerText = resultat;
+    else {
+        var modalText = document.getElementById("modalText");
+        modalText.innerText = resultat;
+        var modal = document.getElementById('myModal');
+        modal.style.display = "block";
+    }
 }
 ;
 //# sourceMappingURL=connection_add.js.map
