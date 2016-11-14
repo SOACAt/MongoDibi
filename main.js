@@ -53,6 +53,7 @@ function createWindow() {
       movable:false,
       resizable: false,
       icon: S.Win_Icon
+      
      })
     Win_connection_add.setMenu(null);
     Win_connection_add.loadURL(modalPath)
@@ -60,7 +61,13 @@ function createWindow() {
     event.returnValue = 'pong'; //importantíssim
 
   });
+  ipcMain.on(S.Win_connection_add_save,(event, arg) => {
+    console.log(S.Win_connection_add_save + arg);
+    // salvem si cal
+    
 
+    event.sender.send(S.Win_connection_add_save_reply,'saved'); //importantíssim
+  });
 }
 
 // This method will be called when Electron has finished
