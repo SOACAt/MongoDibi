@@ -10,9 +10,9 @@ export module ViewModule {
     <div class="window-content">
       <div class="pane-group">
         <div class="pane-sm sidebar">
-          <nav class="nav-group">
+          <nav id="NavServers" class="nav-group">
             <h5 class="nav-group-title">Servers</h5>
-            <a class="nav-group-item active">
+            <a class="nav-group-item">
               <div>
               <span class="icon icon-database"></span> Local
               <div style="font-size:10px">port: 27017 - user: admin</div>
@@ -82,11 +82,43 @@ export module ViewModule {
     button.addEventListener("click", click_function);
     AddHeaderMenuElement(button);
   }
+
+  export function AddNavServerItem(iconClass : string, itemId: string, title: string, subtitle: string, click_function: any){
+    var titleIcon=document.createElement('span');
+    titleIcon.className="icon {0}".replace('{0}', iconClass);
+    var titleSpan=document.createElement('span');
+    titleSpan.innerHTML=title;
+    var subtitleDiv=document.createElement('div');
+    subtitleDiv.innerHTML=subtitle;
+    var container=document.createElement("div");
+    container.appendChild(titleIcon);
+    container.appendChild(titleSpan);
+    container.appendChild(subtitleDiv);
+    var navgroupitem=document.createElement("a");
+    navgroupitem.className="nav-group-item";
+    navgroupitem.id=itemId;
+    navgroupitem.appendChild(container);
+    navgroupitem.addEventListener("click", click_function);
+    AddNavServerElement(navgroupitem);
+  }
+
+
+
+
   function GetHeaderMenuId(): string {
     return 'HeaderMenu';
   }
+  function GetNavServersId(): string {
+    return 'NavServers';
+  }
   function AddHeaderMenuElement(element: HTMLElement) {
-    document.getElementById(GetHeaderMenuId()).appendChild(element);
+    AddElement(GetHeaderMenuId(),element);
+  }
+  function AddNavServerElement(element: HTMLElement) {
+    AddElement(GetNavServersId(),element);
   }
 
+  function AddElement(parentId : string, element: HTMLElement ){
+      document.getElementById(parentId).appendChild(element);
+  }
 }

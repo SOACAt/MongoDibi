@@ -62,11 +62,12 @@ function createWindow() {
 
   });
   ipcMain.on(S.Win_connection_add_save,(event, arg) => {
-    console.log(S.Win_connection_add_save + arg);
+    console.log(S.Win_connection_add_save);
     // salvem si cal
-    
-
     event.sender.send(S.Win_connection_add_save_reply,'saved'); //importantíssim
+    console.log(S.Win_connection_add_save + arg);
+    win.webContents.send(S.Win_main_add_server,arg);
+    
   });
 }
 

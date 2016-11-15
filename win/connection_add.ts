@@ -5,7 +5,6 @@ const remote = require('electron').remote;
 const S: any = require("./__sss")
 
 ipcRenderer.on(S.Win_connection_add_save_reply, (event: any, arg: any) => {
-    alert('reply');
     ModalShow(false, '');
     var window = remote.getCurrentWindow();
     window.close();

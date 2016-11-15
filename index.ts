@@ -12,6 +12,16 @@ VW.ViewModule.AddHeaderMenuIconButton("icon-database", () => {
 });
 VW.ViewModule.AddHeaderMenuIconButton("icon-shuffle", () => { alert('shuffle') });
 
+ipcRenderer.on(S.Win_main_add_server, (event: any, arg: any) => {
+   var _args = arg.split('#');
+
+   if (_args.length > 0){
+       alert('kk');
+       alert(_args[0]);
+   }
+   
+   
+});
 
 
 
