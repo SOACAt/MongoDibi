@@ -1,3 +1,4 @@
+const S = require("../win/__sss")
 export module ViewModule {
 
   let bodytemplate: string = `<div class="window">
@@ -12,56 +13,12 @@ export module ViewModule {
         <div class="pane-sm sidebar">
           <nav id="NavServers" class="nav-group">
             <h5 class="nav-group-title">Servers</h5>
-            <a class="nav-group-item">
-              <div>
-              <span class="icon icon-database"></span> Local
-              <div style="font-size:10px">port: 27017 - user: admin</div>
-              
-              </div>
-            </a>
-            <span class="nav-group-item">
-                    <span class="icon icon-database"></span> T6
-            </span>
-            <span class="nav-group-item">
-                     <span class="icon icon-database"></span> SRVLOGS
-            </span>
-           
-          </nav>
-          <nav class="nav-group">
-            <h5 class="nav-group-title">Collections</h5>
-            <a class="nav-group-item active">
-              <div>
-              <span class="icon icon-cc-zero"></span> Collection1
-              <div style="font-size:10px">kkk</div>
-              
-              </div>
-            </a>
-            
-           
           </nav>
         </div>
-        <div class="pane">
-        <div class="tab-group">
-  <div class="tab-item">
-    <span class="icon icon-cancel icon-close-tab"></span>
-    Tab
-  </div>
-  <div class="tab-item active">
-    <span class="icon icon-cancel icon-close-tab"></span>
-    Tab active
-  </div>
-  <div class="tab-item">
-    <span class="icon icon-cancel icon-close-tab"></span>
-    Tab
-  </div>
-  <div class="tab-item tab-item-fixed">
-    <span class="icon icon-plus"></span>
-  </div>
-</div>
-        
-        
-        
+      <div class="pane">
+        <div class="tab-group" id="TabServers">
         </div>
+      </div>
       </div>
     </div>
     <footer class="toolbar toolbar-footer">
@@ -83,27 +40,52 @@ export module ViewModule {
     AddHeaderMenuElement(button);
   }
 
-  export function AddNavServerItem(iconClass : string, itemId: string, title: string, subtitle: string, click_function: any){
-    var titleIcon=document.createElement('span');
-    titleIcon.className="icon {0}".replace('{0}', iconClass);
-    var titleSpan=document.createElement('span');
-    titleSpan.innerHTML=title;
-    var subtitleDiv=document.createElement('div');
-    subtitleDiv.innerHTML=subtitle;
-    var container=document.createElement("div");
+  export function AddNavServerItem(iconClass: string, itemId: string, title: string, subtitle: string, click_function: any) {
+    var titleIcon = document.createElement('span');
+    titleIcon.className = "icon {0}".replace('{0}', iconClass);
+    var titleSpan = document.createElement('span');
+    titleSpan.innerHTML = title;
+    var subtitleDiv = document.createElement('div');
+    subtitleDiv.style.fontSize = '60%';
+    subtitleDiv.innerHTML = subtitle;
+    var container = document.createElement("div");
     container.appendChild(titleIcon);
     container.appendChild(titleSpan);
     container.appendChild(subtitleDiv);
-    var navgroupitem=document.createElement("a");
-    navgroupitem.className="nav-group-item";
-    navgroupitem.id=itemId;
+    var navgroupitem = document.createElement("a");
+    navgroupitem.className = "nav-group-item";
+    navgroupitem.id = itemId;
     navgroupitem.appendChild(container);
     navgroupitem.addEventListener("click", click_function);
     AddNavServerElement(navgroupitem);
   }
 
 
+  export function AddTabItem(id:string,title: string) {
+    var _id: string = "tab" + S.Join + id;
+    var _ele: HTMLElement = document.getElementById(_id);
 
+    if (_ele === null) {
+      var spanHead = document.createElement('span');
+      spanHead.className = 'icon icon-cancel icon-close-tab';
+      spanHead.addEventListener("click",()=>{
+        Remove(_id);
+      } );
+      var spanTitle = document.createElement('span');
+      spanTitle.innerHTML = title;
+      var tabItem = document.createElement('div');
+      tabItem.className = 'tab-item';
+      tabItem.appendChild(spanHead);
+      tabItem.id = _id;
+      tabItem.appendChild(spanTitle);
+      AddTabServerElement(tabItem);
+    }else{
+      _ele.focus();
+    }
+
+
+
+  }
 
   function GetHeaderMenuId(): string {
     return 'HeaderMenu';
@@ -111,14 +93,26 @@ export module ViewModule {
   function GetNavServersId(): string {
     return 'NavServers';
   }
-  function AddHeaderMenuElement(element: HTMLElement) {
-    AddElement(GetHeaderMenuId(),element);
-  }
-  function AddNavServerElement(element: HTMLElement) {
-    AddElement(GetNavServersId(),element);
+  function GetTabServersId(): string {
+    return 'TabServers';
   }
 
-  function AddElement(parentId : string, element: HTMLElement ){
-      document.getElementById(parentId).appendChild(element);
+  function AddHeaderMenuElement(element: HTMLElement) {
+    AddElement(GetHeaderMenuId(), element);
+  }
+  function AddNavServerElement(element: HTMLElement) {
+    AddElement(GetNavServersId(), element);
+  }
+  function AddTabServerElement(element: HTMLElement) {
+    AddElement(GetTabServersId(), element);
+  }
+  function AddElement(parentId: string, element: HTMLElement) {
+    document.getElementById(parentId).appendChild(element);
+  }
+
+  function Remove(EId:string)
+  {
+    var EObj: HTMLElement=document.getElementById(EId);
+    return(EObj!==null?EObj.parentNode.removeChild(EObj):false);
   }
 }

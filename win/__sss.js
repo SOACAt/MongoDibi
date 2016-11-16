@@ -1,4 +1,6 @@
 "use strict";
+exports.Split = '#';
+exports.Join = '_';
 exports.Win_connection_add_msg = 'connection_add';
 exports.Win_connection_add_save = 'connection_save';
 exports.Win_connection_add_save_reply = 'connection_save_reply';

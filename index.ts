@@ -13,14 +13,18 @@ VW.ViewModule.AddHeaderMenuIconButton("icon-database", () => {
 VW.ViewModule.AddHeaderMenuIconButton("icon-shuffle", () => { alert('shuffle') });
 
 ipcRenderer.on(S.Win_main_add_server, (event: any, arg: any) => {
-   var _args = arg.split('#');
+    var _args: string[] = arg.split(S.Split);
+    if (_args.length > 0) {
+        var _itemId: string = _args[0] + S.Join + _args[1] + S.Join + _args[2];
+        var _title: string = _args[0];
+        var _subtitle: string = "port: " + _args[1];
+        if (_args[2]!=='') _subtitle +=  " user: " + _args[2];
+        VW.ViewModule.AddNavServerItem("icon-database", _itemId, _title, _subtitle, () => {
+            VW.ViewModule.AddTabItem(_itemId,_title);
+        });
+    }
 
-   if (_args.length > 0){
-       alert('kk');
-       alert(_args[0]);
-   }
-   
-   
+
 });
 
 

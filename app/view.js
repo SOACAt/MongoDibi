@@ -1,7 +1,8 @@
 "use strict";
+var S = require("../win/__sss");
 var ViewModule;
 (function (ViewModule) {
-    var bodytemplate = "<div class=\"window\">\n    <header class=\"toolbar toolbar-header\">\n      <!-- Large button group -->\n      <div id='HeaderMenu' class=\"btn-group\">\n        \n      </div>\n    </header>\n    <div class=\"window-content\">\n      <div class=\"pane-group\">\n        <div class=\"pane-sm sidebar\">\n          <nav id=\"NavServers\" class=\"nav-group\">\n            <h5 class=\"nav-group-title\">Servers</h5>\n            <a class=\"nav-group-item\">\n              <div>\n              <span class=\"icon icon-database\"></span> Local\n              <div style=\"font-size:10px\">port: 27017 - user: admin</div>\n              \n              </div>\n            </a>\n            <span class=\"nav-group-item\">\n                    <span class=\"icon icon-database\"></span> T6\n            </span>\n            <span class=\"nav-group-item\">\n                     <span class=\"icon icon-database\"></span> SRVLOGS\n            </span>\n           \n          </nav>\n          <nav class=\"nav-group\">\n            <h5 class=\"nav-group-title\">Collections</h5>\n            <a class=\"nav-group-item active\">\n              <div>\n              <span class=\"icon icon-cc-zero\"></span> Collection1\n              <div style=\"font-size:10px\">kkk</div>\n              \n              </div>\n            </a>\n            \n           \n          </nav>\n        </div>\n        <div class=\"pane\">\n        <div class=\"tab-group\">\n  <div class=\"tab-item\">\n    <span class=\"icon icon-cancel icon-close-tab\"></span>\n    Tab\n  </div>\n  <div class=\"tab-item active\">\n    <span class=\"icon icon-cancel icon-close-tab\"></span>\n    Tab active\n  </div>\n  <div class=\"tab-item\">\n    <span class=\"icon icon-cancel icon-close-tab\"></span>\n    Tab\n  </div>\n  <div class=\"tab-item tab-item-fixed\">\n    <span class=\"icon icon-plus\"></span>\n  </div>\n</div>\n        \n        \n        \n        </div>\n      </div>\n    </div>\n    <footer class=\"toolbar toolbar-footer\">\n      <textarea role=\"5\" style=\"width:100%; background-color:black; color:green;\"></textarea>\n    </footer>\n  </div>'";
+    var bodytemplate = "<div class=\"window\">\n    <header class=\"toolbar toolbar-header\">\n      <!-- Large button group -->\n      <div id='HeaderMenu' class=\"btn-group\">\n        \n      </div>\n    </header>\n    <div class=\"window-content\">\n      <div class=\"pane-group\">\n        <div class=\"pane-sm sidebar\">\n          <nav id=\"NavServers\" class=\"nav-group\">\n            <h5 class=\"nav-group-title\">Servers</h5>\n          </nav>\n        </div>\n      <div class=\"pane\">\n        <div class=\"tab-group\" id=\"TabServers\">\n        </div>\n      </div>\n      </div>\n    </div>\n    <footer class=\"toolbar toolbar-footer\">\n      <textarea role=\"5\" style=\"width:100%; background-color:black; color:green;\"></textarea>\n    </footer>\n  </div>'";
     function CreateBody() {
         document.body.innerHTML = bodytemplate;
     }
@@ -22,6 +23,7 @@ var ViewModule;
         var titleSpan = document.createElement('span');
         titleSpan.innerHTML = title;
         var subtitleDiv = document.createElement('div');
+        subtitleDiv.style.fontSize = '60%';
         subtitleDiv.innerHTML = subtitle;
         var container = document.createElement("div");
         container.appendChild(titleIcon);
@@ -35,11 +37,37 @@ var ViewModule;
         AddNavServerElement(navgroupitem);
     }
     ViewModule.AddNavServerItem = AddNavServerItem;
+    function AddTabItem(id, title) {
+        var _id = "tab" + S.Join + id;
+        var _ele = document.getElementById(_id);
+        if (_ele === null) {
+            var spanHead = document.createElement('span');
+            spanHead.className = 'icon icon-cancel icon-close-tab';
+            spanHead.addEventListener("click", function () {
+                Remove(_id);
+            });
+            var spanTitle = document.createElement('span');
+            spanTitle.innerHTML = title;
+            var tabItem = document.createElement('div');
+            tabItem.className = 'tab-item';
+            tabItem.appendChild(spanHead);
+            tabItem.id = _id;
+            tabItem.appendChild(spanTitle);
+            AddTabServerElement(tabItem);
+        }
+        else {
+            _ele.focus();
+        }
+    }
+    ViewModule.AddTabItem = AddTabItem;
     function GetHeaderMenuId() {
         return 'HeaderMenu';
     }
     function GetNavServersId() {
         return 'NavServers';
+    }
+    function GetTabServersId() {
+        return 'TabServers';
     }
     function AddHeaderMenuElement(element) {
         AddElement(GetHeaderMenuId(), element);
@@ -47,8 +75,15 @@ var ViewModule;
     function AddNavServerElement(element) {
         AddElement(GetNavServersId(), element);
     }
+    function AddTabServerElement(element) {
+        AddElement(GetTabServersId(), element);
+    }
     function AddElement(parentId, element) {
         document.getElementById(parentId).appendChild(element);
+    }
+    function Remove(EId) {
+        var EObj = document.getElementById(EId);
+        return (EObj !== null ? EObj.parentNode.removeChild(EObj) : false);
     }
 })(ViewModule = exports.ViewModule || (exports.ViewModule = {}));
 //# sourceMappingURL=view.js.map
