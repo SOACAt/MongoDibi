@@ -1,8 +1,9 @@
 "use strict";
 var mongodb = require('mongodb');
 var Sem = require("../ext/async");
+var S = require('../win/__sss');
 var MgoClient = (function () {
-    function MgoClient(server, port, user, pwd) {
+    function MgoClient(server, port, user) {
         this._server = '';
         this._port = 0;
         this._user = '';
@@ -10,7 +11,6 @@ var MgoClient = (function () {
         this._server = server;
         this._port = port;
         this._user = user;
-        this._pwd = pwd;
     }
     Object.defineProperty(MgoClient.prototype, "Server", {
         get: function () {
@@ -33,8 +33,15 @@ var MgoClient = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(MgoClient.prototype, "Password", {
+        set: function (value) {
+            this._pwd;
+        },
+        enumerable: true,
+        configurable: true
+    });
     MgoClient.prototype.GetName = function () {
-        return (this._server + this._port + this._user).toString();
+        return (this._server + S.Join + this._port + S.Join + this._user).toString();
     };
     MgoClient.prototype.ListDatabases = function () {
         var ret = null;
@@ -55,11 +62,9 @@ var MgoClient = (function () {
                         }
                     }
                     db.close();
-                    sem.Green();
                 });
             }
         });
-        sem.Wait();
         return ret;
     };
     return MgoClient;

@@ -1,7 +1,6 @@
 import MgoClient = require("./domain")
 
-
-class MgoConnections {
+class MgoConnection {
     private __name: string;
     private __mongoClient: MgoClient;
     private __databases: Array<string>;
@@ -23,28 +22,48 @@ class MgoConnections {
     }
 }
 
+
 class App {
-    private __mgoConnections: Array<MgoConnections> = null;
+    private __mgoConnections: Array<MgoConnection> = null;
 
-    GetConnections(): Array<string> {
-        var ret: Array<string> = null;
+    GetConnections(): Array<MgoConnection> {
+        return this.__mgoConnections;
+    }
+    GetConnectionsNames(): Array<string> {
+        var ret:Array<string> = new Array<string>();
 
-        if (this.__mgoConnections.length > 0) {
-            ret=new Array<string>();
-            for (var i=0;i<this.__mgoConnections.length;i++)
-                ret.push(this.__mgoConnections[i].Name);
-            
+        if (this.__mgoConnections.length>0){
+            for (let mgoCon of this.__mgoConnections){
+                ret.push(mgoCon.Name);
+            }
         }
-
-
-
+        return ret;
+    }
+    GetConnection(connectionName:string): MgoConnection {
+        var ret:MgoConnection
+        if (this.__mgoConnections.length>0){
+            for (let mgoCon of this.__mgoConnections){
+                if (connectionName===mgoCon.Name){
+                    ret=mgoCon;
+                }
+            }
+        }
+        
         return ret;
     }
     AddConnection(mongoClient: MgoClient) {
-        if (this.__mgoConnections === null) this.__mgoConnections = new Array<MgoConnections>();
-        var mgoc = new MgoConnections(mongoClient);
+        if (this.__mgoConnections === null) this.__mgoConnections = new Array<MgoConnection>();
+        var mgoc = new MgoConnection(mongoClient);
         this.__mgoConnections.push(mgoc);
     };
-}
+    LoadDatabases(connectionName:string){
+         var ret:MgoConnection = this.GetConnection(connectionName)
+         if (ret!==null){
+                ret.Client.ListDatabases();
+         }
 
+         
+    }
+
+}
 export = App;

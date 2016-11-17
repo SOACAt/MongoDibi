@@ -3,7 +3,7 @@ class Sem{
     
     Wait(){
         while(this._end===false){
-            setTimeout(()=>{},300);
+            setTimeout(()=>{ var a=0;},1000);
             
         }
     }

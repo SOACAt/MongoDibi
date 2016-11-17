@@ -5,7 +5,7 @@ var Sem = (function () {
     }
     Sem.prototype.Wait = function () {
         while (this._end === false) {
-            setTimeout(function () { }, 300);
+            setTimeout(function () { var a = 0; }, 1000);
         }
     };
     Sem.prototype.Red = function () {

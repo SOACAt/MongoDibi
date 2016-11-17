@@ -5,17 +5,22 @@ import App = require("./app")
 export module MainModule {
     let app: App = new App();
 
-    export function AddConnection(server: string, port: number, user?: string, pwd?: string) {
+    export function AddConnection(server: string, port: number, user?: string) : string {
 
-        var mc = new MgoClient(server, port, user, pwd);
+        var mc = new MgoClient(server, port, user);
         app.AddConnection(mc);
-
-        alert("Ok");
-
+        return mc.GetName();
+ 
     }
-    export function GetConnections(): Array<string> {
+    export function GetConnectionsNames(): Array<string> {
     
-        return app.GetConnections();
+        return app.GetConnectionsNames();
+    }
+
+    export function GetDatabaseNames(ConnectionName:string): Array<string> {
+        var ret:Array<string>=app.GetConnection(ConnectionName).Databases;
+        if (ret===null) app.LoadDatabases(ConnectionName);
+        return ret;
     }
 }
 

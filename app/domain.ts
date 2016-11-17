@@ -1,5 +1,6 @@
 import mongodb = require('mongodb');
 import Sem = require("../ext/async");
+import S = require('../win/__sss');
 
 class MgoClient {
     private _server: string = '';
@@ -9,11 +10,11 @@ class MgoClient {
 
 
 
-    constructor(server: string, port: number, user?: string, pwd?: string) {
+    constructor(server: string, port: number, user?: string) {
         this._server = server;
         this._port = port;
         this._user = user;
-        this._pwd = pwd;
+        
     }
     get Server():string {
         return this._server;
@@ -24,11 +25,13 @@ class MgoClient {
     get User():string {
         return this._user;
     }
-
+    set Password(value:string){
+        this._pwd;
+    }
     
 
     GetName():string{
-        return (this._server+this._port+this._user).toString();
+        return (this._server + S.Join + this._port + S.Join +  this._user).toString();
     }
     ListDatabases(): Array<string> {
         var ret: Array<string> = null;
@@ -55,12 +58,12 @@ class MgoClient {
                         }
                     }
                     db.close();
-                    sem.Green();
+                    //sem.Green();
                 });
             }
 
         });
-        sem.Wait();
+        //sem.Wait();
         return ret;
     }
 

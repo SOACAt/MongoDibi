@@ -61,7 +61,7 @@ export module ViewModule {
   }
 
 
-  export function AddTabItem(id:string,title: string) {
+  export function AddTabItem(id:string,title: string, navItems : Array<string>) {
     var _id: string = "tab" + S.Join + id;
     var _ele: HTMLElement = document.getElementById(_id);
 
@@ -78,6 +78,15 @@ export module ViewModule {
       tabItem.appendChild(spanHead);
       tabItem.id = _id;
       tabItem.appendChild(spanTitle);
+
+      var paneGroup = document.createElement('div');
+      paneGroup.className="pane-group";
+      var paneLeft = document.createElement('div');
+      paneLeft.className="pane-sm sidebar";
+      var paneRight = document.createElement('div');
+      paneGroup.className="pane";
+      
+
       AddTabServerElement(tabItem);
     }else{
       _ele.focus();

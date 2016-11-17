@@ -37,7 +37,7 @@ var ViewModule;
         AddNavServerElement(navgroupitem);
     }
     ViewModule.AddNavServerItem = AddNavServerItem;
-    function AddTabItem(id, title) {
+    function AddTabItem(id, title, navItems) {
         var _id = "tab" + S.Join + id;
         var _ele = document.getElementById(_id);
         if (_ele === null) {
@@ -53,6 +53,12 @@ var ViewModule;
             tabItem.appendChild(spanHead);
             tabItem.id = _id;
             tabItem.appendChild(spanTitle);
+            var paneGroup = document.createElement('div');
+            paneGroup.className = "pane-group";
+            var paneLeft = document.createElement('div');
+            paneLeft.className = "pane-sm sidebar";
+            var paneRight = document.createElement('div');
+            paneGroup.className = "pane";
             AddTabServerElement(tabItem);
         }
         else {
