@@ -84,7 +84,7 @@ export module ViewModule {
       var paneLeft = document.createElement('div');
       paneLeft.className="pane-sm sidebar";
       var paneRight = document.createElement('div');
-      paneGroup.className="pane";
+      paneRight.className="pane";
       
       paneGroup.appendChild(paneLeft);
       paneGroup.appendChild(paneRight);
