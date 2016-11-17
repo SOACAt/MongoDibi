@@ -86,6 +86,9 @@ export module ViewModule {
       var paneRight = document.createElement('div');
       paneGroup.className="pane";
       
+      paneGroup.appendChild(paneLeft);
+      paneGroup.appendChild(paneRight);
+      tabItem.appendChild(paneGroup);
 
       AddTabServerElement(tabItem);
     }else{
