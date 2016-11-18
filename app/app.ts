@@ -5,14 +5,14 @@ class MgoConnection {
     private __mongoClient: MgoClient;
     private __databases: Array<string>;
 
-    get Name():string{
+    get Name(): string {
         return this.__name;
     }
-    get Databases():Array<string>{
+    get Databases(): Array<string> {
         return this.__databases;
 
     }
-    get Client():MgoClient{
+    get Client(): MgoClient {
         return this.__mongoClient;
     }
     constructor(mongoClient: MgoClient) {
@@ -30,25 +30,25 @@ class App {
         return this.__mgoConnections;
     }
     GetConnectionsNames(): Array<string> {
-        var ret:Array<string> = new Array<string>();
+        var ret: Array<string> = new Array<string>();
 
-        if (this.__mgoConnections.length>0){
-            for (let mgoCon of this.__mgoConnections){
+        if (this.__mgoConnections.length > 0) {
+            for (let mgoCon of this.__mgoConnections) {
                 ret.push(mgoCon.Name);
             }
         }
         return ret;
     }
-    GetConnection(connectionName:string): MgoConnection {
-        var ret:MgoConnection
-        if (this.__mgoConnections.length>0){
-            for (let mgoCon of this.__mgoConnections){
-                if (connectionName===mgoCon.Name){
-                    ret=mgoCon;
+    GetConnection(connectionName: string): MgoConnection {
+        var ret: MgoConnection
+        if (this.__mgoConnections.length > 0) {
+            for (let mgoCon of this.__mgoConnections) {
+                if (connectionName === mgoCon.Name) {
+                    ret = mgoCon;
                 }
             }
         }
-        
+
         return ret;
     }
     AddConnection(mongoClient: MgoClient) {
@@ -56,13 +56,19 @@ class App {
         var mgoc = new MgoConnection(mongoClient);
         this.__mgoConnections.push(mgoc);
     };
-    LoadDatabases(connectionName:string){
-         var ret:MgoConnection = this.GetConnection(connectionName)
-         if (ret!==null){
-                ret.Client.ListDatabases();
-         }
+    LoadDatabases(connectionName: string, callback:any) {
+        var ret: MgoConnection = this.GetConnection(connectionName)
+        
 
-         
+        if (ret !== null) {
+            ret.Client.ListDatabases2((dbs: Array<string>) => {
+                if (dbs !== null) {
+                    callback(dbs);
+                }
+            });
+        }
+
+
     }
 
 }

@@ -69,6 +69,9 @@ function createWindow() {
     win.webContents.send(S.Win_main_add_server,arg);
     
   });
+
+  
+
 }
 
 // This method will be called when Electron has finished

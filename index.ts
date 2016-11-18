@@ -22,8 +22,10 @@ ipcRenderer.on(S.Win_main_add_server, (event: any, arg: any) => {
             var _subtitle: string = "port: " + _args[1];
             if (_args[2] !== '') _subtitle += " user: " + _args[2];
             VW.ViewModule.AddNavServerItem("icon-database", _itemId, _title, _subtitle, () => {
-                var navItems: Array<string>=MM.MainModule.GetDatabaseNames(_itemId);
-                VW.ViewModule.AddTabItem(_itemId, _title, navItems);
+                MM.MainModule.GetDatabaseNames(_itemId, (dbs:Array<string>)=>{
+                    VW.ViewModule.AddTabItem(_itemId, _title, dbs);
+                });
+                
             });
         }
 
@@ -32,6 +34,9 @@ ipcRenderer.on(S.Win_main_add_server, (event: any, arg: any) => {
 
 
 });
+
+
+
 
 
 

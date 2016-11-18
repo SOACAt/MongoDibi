@@ -67,6 +67,31 @@ var MgoClient = (function () {
         });
         return ret;
     };
+    MgoClient.prototype.ListDatabases2 = function (callback) {
+        var ret = null;
+        var MongoClient = new mongodb.MongoClient();
+        var url = 'mongodb://' + this._server + ':' + this._port + '/local';
+        var sem = new Sem();
+        MongoClient.connect(url, function (err, db) {
+            if (err === null) {
+                var adminDb = db.admin();
+                adminDb.listDatabases(function (err, dbs) {
+                    if (err === null) {
+                        var l = dbs.databases.length;
+                        if (l > 0) {
+                            ret = new Array();
+                            for (var i = 0; i < l; i++) {
+                                ret.push(dbs.databases[i].name);
+                            }
+                        }
+                    }
+                    db.close();
+                    callback(ret);
+                });
+            }
+        });
+        return ret;
+    };
     return MgoClient;
 }());
 ;

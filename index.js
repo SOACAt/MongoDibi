@@ -18,8 +18,9 @@ ipcRenderer.on(S.Win_main_add_server, function (event, arg) {
             if (_args[2] !== '')
                 _subtitle += " user: " + _args[2];
             VW.ViewModule.AddNavServerItem("icon-database", _itemId, _title, _subtitle, function () {
-                var navItems = MM.MainModule.GetDatabaseNames(_itemId);
-                VW.ViewModule.AddTabItem(_itemId, _title, navItems);
+                MM.MainModule.GetDatabaseNames(_itemId, function (dbs) {
+                    VW.ViewModule.AddTabItem(_itemId, _title, dbs);
+                });
             });
         }
     }

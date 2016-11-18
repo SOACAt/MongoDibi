@@ -14,11 +14,12 @@ var MainModule;
         return app.GetConnectionsNames();
     }
     MainModule.GetConnectionsNames = GetConnectionsNames;
-    function GetDatabaseNames(ConnectionName) {
+    function GetDatabaseNames(ConnectionName, callback) {
         var ret = app.GetConnection(ConnectionName).Databases;
         if (ret === null)
-            app.LoadDatabases(ConnectionName);
-        return ret;
+            app.LoadDatabases(ConnectionName, function (dbs) {
+                callback(ret);
+            });
     }
     MainModule.GetDatabaseNames = GetDatabaseNames;
 })(MainModule = exports.MainModule || (exports.MainModule = {}));

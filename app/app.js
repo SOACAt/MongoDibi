@@ -64,10 +64,14 @@ var App = (function () {
         this.__mgoConnections.push(mgoc);
     };
     ;
-    App.prototype.LoadDatabases = function (connectionName) {
+    App.prototype.LoadDatabases = function (connectionName, callback) {
         var ret = this.GetConnection(connectionName);
         if (ret !== null) {
-            ret.Client.ListDatabases();
+            ret.Client.ListDatabases2(function (dbs) {
+                if (dbs !== null) {
+                    callback(dbs);
+                }
+            });
         }
     };
     return App;

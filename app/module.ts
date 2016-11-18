@@ -17,10 +17,13 @@ export module MainModule {
         return app.GetConnectionsNames();
     }
 
-    export function GetDatabaseNames(ConnectionName:string): Array<string> {
+    export function GetDatabaseNames(ConnectionName:string, callback:any) {
+        
         var ret:Array<string>=app.GetConnection(ConnectionName).Databases;
-        if (ret===null) app.LoadDatabases(ConnectionName);
-        return ret;
+        if (ret===null) app.LoadDatabases(ConnectionName, (dbs:Array<string>)=>{
+             callback(ret);
+        });
+        
     }
 }
 
