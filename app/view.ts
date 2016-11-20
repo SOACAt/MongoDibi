@@ -81,6 +81,7 @@ export module ViewModule {
 
       var wind=document.createElement('div');
       wind.className="window-content"; //  <div class="window-content">
+      wind.style.height="400px";
       var paneGroup = document.createElement('div');
       paneGroup.className="pane-group";
       var paneLeft = document.createElement('div');
@@ -100,6 +101,7 @@ export module ViewModule {
             span.className = "icon {0}".replace('{0}', "icon-database")
             _nav.appendChild(span);
             var _tit=document.createElement("span");
+            _tit.className="nav-group-title";
             _tit.innerHTML=nav;
             _nav.appendChild(_tit);
             paneLeft.appendChild(_nav);
