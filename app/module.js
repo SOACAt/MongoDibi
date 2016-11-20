@@ -16,10 +16,14 @@ var MainModule;
     MainModule.GetConnectionsNames = GetConnectionsNames;
     function GetDatabaseNames(ConnectionName, callback) {
         var ret = app.GetConnection(ConnectionName).Databases;
-        if (ret === null)
+        if (ret === null) {
             app.LoadDatabases(ConnectionName, function (dbs) {
-                callback(ret);
+                callback(dbs);
             });
+        }
+        else {
+            callback(ret);
+        }
     }
     MainModule.GetDatabaseNames = GetDatabaseNames;
 })(MainModule = exports.MainModule || (exports.MainModule = {}));

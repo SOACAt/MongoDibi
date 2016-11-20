@@ -1,5 +1,5 @@
 import mongodb = require('mongodb');
-import Sem = require("../ext/async");
+//import Sem = require("../ext/async");
 import S = require('../win/__sss');
 
 class MgoClient {
@@ -33,48 +33,14 @@ class MgoClient {
     GetName():string{
         return (this._server + S.Join + this._port + S.Join +  this._user).toString();
     }
-    ListDatabases(): Array<string> {
-        var ret: Array<string> = null;
-        var MongoClient = new mongodb.MongoClient();
-        // Connection url
-        var url = 'mongodb://' + this._server + ':' + this._port + '/Local';
 
-        var sem=new Sem();        
-        // Connect using MongoClient
-        MongoClient.connect(url, function (err, db) {
 
-            if (err === null) {
-                // Use the admin database for the operation
-                var adminDb = db.admin();
-                // List all the available databases
-                adminDb.listDatabases(function (err, dbs) {
-                    if (err === null) {
-                        var l = dbs.databases.length;
-                        if(l>0){
-                            ret=new Array<string>();
-                            for(var i=0;i<l;i++){
-                                ret.push(dbs.databases[i].name);
-                            }
-                        }
-                    }
-                    db.close();
-                    
-                    //sem.Green();
-                });
-            }
-
-        });
-        //sem.Wait();
-        return ret;
-    }
-
-    ListDatabases2(callback:any) {
+    ListDatabases(callback:any) {
         var ret: Array<string> = null;
         var MongoClient = new mongodb.MongoClient();
         // Connection url
         var url = 'mongodb://' + this._server + ':' + this._port + '/local';
 
-        var sem=new Sem();        
         // Connect using MongoClient
         MongoClient.connect(url, function (err, db) {
 
@@ -94,12 +60,10 @@ class MgoClient {
                     }
                     db.close();
                     callback(ret);
-                    //sem.Green();
                 });
             }
 
         });
-        //sem.Wait();
         return ret;
     }
 

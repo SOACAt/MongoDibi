@@ -1,6 +1,5 @@
 "use strict";
 var mongodb = require('mongodb');
-var Sem = require("../ext/async");
 var S = require('../win/__sss');
 var MgoClient = (function () {
     function MgoClient(server, port, user) {
@@ -43,35 +42,10 @@ var MgoClient = (function () {
     MgoClient.prototype.GetName = function () {
         return (this._server + S.Join + this._port + S.Join + this._user).toString();
     };
-    MgoClient.prototype.ListDatabases = function () {
-        var ret = null;
-        var MongoClient = new mongodb.MongoClient();
-        var url = 'mongodb://' + this._server + ':' + this._port + '/Local';
-        var sem = new Sem();
-        MongoClient.connect(url, function (err, db) {
-            if (err === null) {
-                var adminDb = db.admin();
-                adminDb.listDatabases(function (err, dbs) {
-                    if (err === null) {
-                        var l = dbs.databases.length;
-                        if (l > 0) {
-                            ret = new Array();
-                            for (var i = 0; i < l; i++) {
-                                ret.push(dbs.databases[i].name);
-                            }
-                        }
-                    }
-                    db.close();
-                });
-            }
-        });
-        return ret;
-    };
-    MgoClient.prototype.ListDatabases2 = function (callback) {
+    MgoClient.prototype.ListDatabases = function (callback) {
         var ret = null;
         var MongoClient = new mongodb.MongoClient();
         var url = 'mongodb://' + this._server + ':' + this._port + '/local';
-        var sem = new Sem();
         MongoClient.connect(url, function (err, db) {
             if (err === null) {
                 var adminDb = db.admin();

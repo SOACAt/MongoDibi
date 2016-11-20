@@ -79,16 +79,38 @@ export module ViewModule {
       tabItem.id = _id;
       tabItem.appendChild(spanTitle);
 
+      var wind=document.createElement('div');
+      wind.className="window-content"; //  <div class="window-content">
       var paneGroup = document.createElement('div');
       paneGroup.className="pane-group";
       var paneLeft = document.createElement('div');
+      paneLeft.id=id + S.Join + "Left";
       paneLeft.className="pane-sm sidebar";
+      paneLeft.style.backgroundColor="#000000";
       var paneRight = document.createElement('div');
+      paneRight.id=id + S.Join + "Right";
       paneRight.className="pane";
       
+      if (navItems!==null){
+        for (var nav of navItems){
+            var _nav = document.createElement("nav");
+            _nav.id=id + S.Join + nav;
+            _nav.className="nav-group";
+            var span = document.createElement('span');
+            span.className = "icon {0}".replace('{0}', "icon-database")
+            _nav.appendChild(span);
+            var _tit=document.createElement("span");
+            _tit.innerHTML=nav;
+            _nav.appendChild(_tit);
+            paneLeft.appendChild(_nav);
+        }
+      }
+
+
       paneGroup.appendChild(paneLeft);
       paneGroup.appendChild(paneRight);
-      tabItem.appendChild(paneGroup);
+      wind.appendChild(paneGroup);
+      tabItem.appendChild(wind);
 
       AddTabServerElement(tabItem);
     }else{

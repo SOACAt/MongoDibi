@@ -3,7 +3,7 @@ var MgoConnection = (function () {
     function MgoConnection(mongoClient) {
         this.__mongoClient = mongoClient;
         this.__name = mongoClient.GetName();
-        this.__databases = mongoClient.ListDatabases();
+        this.__databases = null;
     }
     Object.defineProperty(MgoConnection.prototype, "Name", {
         get: function () {
@@ -67,7 +67,7 @@ var App = (function () {
     App.prototype.LoadDatabases = function (connectionName, callback) {
         var ret = this.GetConnection(connectionName);
         if (ret !== null) {
-            ret.Client.ListDatabases2(function (dbs) {
+            ret.Client.ListDatabases(function (dbs) {
                 if (dbs !== null) {
                     callback(dbs);
                 }

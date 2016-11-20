@@ -18,7 +18,7 @@ class MgoConnection {
     constructor(mongoClient: MgoClient) {
         this.__mongoClient = mongoClient;
         this.__name = mongoClient.GetName();
-        this.__databases = mongoClient.ListDatabases();
+        this.__databases = null;
     }
 }
 
@@ -61,8 +61,9 @@ class App {
         
 
         if (ret !== null) {
-            ret.Client.ListDatabases2((dbs: Array<string>) => {
+            ret.Client.ListDatabases((dbs: Array<string>) => {
                 if (dbs !== null) {
+
                     callback(dbs);
                 }
             });
