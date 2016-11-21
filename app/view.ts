@@ -10,10 +10,8 @@ export module ViewModule {
     </header>
     <div class="window-content">
       <div class="pane-group">
-        <div class="pane-sm sidebar">
-          <nav id="NavServers" class="nav-group">
-            <h5 class="nav-group-title">Servers</h5>
-          </nav>
+        <div id="NavServers" class="pane-sm sidebar">
+          
         </div>
       <div class="pane">
         <div class="tab-group" id="TabServers">
@@ -39,38 +37,96 @@ export module ViewModule {
     button.addEventListener("click", click_function);
     AddHeaderMenuElement(button);
   }
-
-  export function AddNavServerItem(iconClass: string, itemId: string, title: string, subtitle: string, click_function: any) {
-    var titleIcon = document.createElement('span');
-    titleIcon.className = "icon {0}".replace('{0}', iconClass);
-    var titleSpan = document.createElement('span');
-    titleSpan.innerHTML = title;
+  export function AddNavServerItem(iconClass: string, itemId: string, title: string, subtitle: string, navItems: Array<string>) {
+    var _nav = document.createElement("nav");
+    _nav.id = itemId;
+    _nav.className = "nav-group";
+    _nav.style.paddingLeft="5px";
+    var span = document.createElement('span');
+    span.className = "icon {0}".replace('{0}', "icon-leaf")
+    _nav.appendChild(span);
+    var _tit = document.createElement("span");
+    _tit.className = "nav-group-title";
+    _tit.innerHTML = title;
+    _nav.appendChild(_tit);
     var subtitleDiv = document.createElement('div');
     subtitleDiv.style.fontSize = '60%';
     subtitleDiv.innerHTML = subtitle;
-    var container = document.createElement("div");
-    container.appendChild(titleIcon);
-    container.appendChild(titleSpan);
-    container.appendChild(subtitleDiv);
-    var navgroupitem = document.createElement("a");
-    navgroupitem.className = "nav-group-item";
-    navgroupitem.id = itemId;
-    navgroupitem.appendChild(container);
-    navgroupitem.addEventListener("click", click_function);
-    AddNavServerElement(navgroupitem);
+    _nav.appendChild(subtitleDiv);
+    if (navItems !== null) {
+      for (var nav of navItems) {
+        var titleIcon = document.createElement('span');
+        titleIcon.className = "icon {0}".replace('{0}', iconClass);
+        var titleSpan = document.createElement('span');
+        titleSpan.innerHTML = nav;
+
+        var container = document.createElement("div");
+        container.appendChild(titleIcon);
+        container.appendChild(titleSpan);
+        var navgroupitem = document.createElement("a");
+        navgroupitem.className = "nav-group-item";
+        navgroupitem.id = itemId + S.Join + nav;
+        navgroupitem.appendChild(container);
+        
+        var lu = document.createElement('lu');
+        var li = document.createElement('li');
+        li.innerHTML="Collection 1";
+        lu.appendChild(li);
+        navgroupitem.appendChild(lu);
+        _nav.appendChild(navgroupitem);
+        //navgroupitem.addEventListener("click", click_function);
+        //AddNavServerElement(navgroupitem);
+      }
+    }
+    AddNavServerElement(_nav);
+  }
+  export function AddNavServerItem2(iconClass: string, itemId: string, title: string, subtitle: string, click_function: any) {
+    var _nav = document.createElement("nav");
+    _nav.id = itemId;
+    _nav.className = "nav-group";
+    var span = document.createElement('span');
+    span.className = "icon {0}".replace('{0}', "icon-database")
+    _nav.appendChild(span);
+    var _tit = document.createElement("span");
+    _tit.className = "nav-group-title";
+    _tit.innerHTML = title;
+    _nav.appendChild(_tit);
+
+
+    AddNavServerElement(_nav);
+
+
+
+    /* var titleIcon = document.createElement('span');
+     titleIcon.className = "icon {0}".replace('{0}', iconClass);
+     var titleSpan = document.createElement('span');
+     titleSpan.innerHTML = title;
+     var subtitleDiv = document.createElement('div');
+     subtitleDiv.style.fontSize = '60%';
+     subtitleDiv.innerHTML = subtitle;
+     var container = document.createElement("div");
+     container.appendChild(titleIcon);
+     container.appendChild(titleSpan);
+     container.appendChild(subtitleDiv);
+     var navgroupitem = document.createElement("a");
+     navgroupitem.className = "nav-group-item";
+     navgroupitem.id = itemId;
+     navgroupitem.appendChild(container);
+     navgroupitem.addEventListener("click", click_function);
+     AddNavServerElement(navgroupitem);*/
   }
 
 
-  export function AddTabItem(id:string,title: string, navItems : Array<string>) {
+  export function AddTabItem(id: string, title: string, navItems: Array<string>) {
     var _id: string = "tab" + S.Join + id;
     var _ele: HTMLElement = document.getElementById(_id);
 
     if (_ele === null) {
       var spanHead = document.createElement('span');
       spanHead.className = 'icon icon-cancel icon-close-tab';
-      spanHead.addEventListener("click",()=>{
+      spanHead.addEventListener("click", () => {
         Remove(_id);
-      } );
+      });
       var spanTitle = document.createElement('span');
       spanTitle.innerHTML = title;
       var tabItem = document.createElement('div');
@@ -79,31 +135,31 @@ export module ViewModule {
       tabItem.id = _id;
       tabItem.appendChild(spanTitle);
 
-      var wind=document.createElement('div');
-      wind.className="window-content"; //  <div class="window-content">
-      wind.style.height="400px";
+      var wind = document.createElement('div');
+      wind.className = "window-content"; //  <div class="window-content">
+      wind.style.height = "400px";
       var paneGroup = document.createElement('div');
-      paneGroup.className="pane-group";
+      paneGroup.className = "pane-group";
       var paneLeft = document.createElement('div');
-      paneLeft.id=id + S.Join + "Left";
-      paneLeft.className="pane-sm sidebar";
+      paneLeft.id = id + S.Join + "Left";
+      paneLeft.className = "pane-sm sidebar";
       var paneRight = document.createElement('div');
-      paneRight.id=id + S.Join + "Right";
-      paneRight.className="pane";
-      
-      if (navItems!==null){
-        for (var nav of navItems){
-            var _nav = document.createElement("nav");
-            _nav.id=id + S.Join + nav;
-            _nav.className="nav-group";
-            var span = document.createElement('span');
-            span.className = "icon {0}".replace('{0}', "icon-database")
-            _nav.appendChild(span);
-            var _tit=document.createElement("span");
-            _tit.className="nav-group-title";
-            _tit.innerHTML=nav;
-            _nav.appendChild(_tit);
-            paneLeft.appendChild(_nav);
+      paneRight.id = id + S.Join + "Right";
+      paneRight.className = "pane";
+
+      if (navItems !== null) {
+        for (var nav of navItems) {
+          var _nav = document.createElement("nav");
+          _nav.id = id + S.Join + nav;
+          _nav.className = "nav-group";
+          var span = document.createElement('span');
+          span.className = "icon {0}".replace('{0}', "icon-database")
+          _nav.appendChild(span);
+          var _tit = document.createElement("span");
+          _tit.className = "nav-group-title";
+          _tit.innerHTML = nav;
+          _nav.appendChild(_tit);
+          paneLeft.appendChild(_nav);
         }
       }
 
@@ -114,7 +170,7 @@ export module ViewModule {
       tabItem.appendChild(wind);
 
       AddTabServerElement(tabItem);
-    }else{
+    } else {
       _ele.focus();
     }
 
@@ -145,9 +201,8 @@ export module ViewModule {
     document.getElementById(parentId).appendChild(element);
   }
 
-  function Remove(EId:string)
-  {
-    var EObj: HTMLElement=document.getElementById(EId);
-    return(EObj!==null?EObj.parentNode.removeChild(EObj):false);
+  function Remove(EId: string) {
+    var EObj: HTMLElement = document.getElementById(EId);
+    return (EObj !== null ? EObj.parentNode.removeChild(EObj) : false);
   }
 }

@@ -2,7 +2,7 @@
 var S = require("../win/__sss");
 var ViewModule;
 (function (ViewModule) {
-    var bodytemplate = "<div class=\"window\">\n    <header class=\"toolbar toolbar-header\">\n      <!-- Large button group -->\n      <div id='HeaderMenu' class=\"btn-group\">\n        \n      </div>\n    </header>\n    <div class=\"window-content\">\n      <div class=\"pane-group\">\n        <div class=\"pane-sm sidebar\">\n          <nav id=\"NavServers\" class=\"nav-group\">\n            <h5 class=\"nav-group-title\">Servers</h5>\n          </nav>\n        </div>\n      <div class=\"pane\">\n        <div class=\"tab-group\" id=\"TabServers\">\n        </div>\n      </div>\n      </div>\n    </div>\n    <footer class=\"toolbar toolbar-footer\">\n      <textarea role=\"5\" style=\"width:100%; background-color:black; color:green;\"></textarea>\n    </footer>\n  </div>'";
+    var bodytemplate = "<div class=\"window\">\n    <header class=\"toolbar toolbar-header\">\n      <!-- Large button group -->\n      <div id='HeaderMenu' class=\"btn-group\">\n        \n      </div>\n    </header>\n    <div class=\"window-content\">\n      <div class=\"pane-group\">\n        <div id=\"NavServers\" class=\"pane-sm sidebar\">\n          \n        </div>\n      <div class=\"pane\">\n        <div class=\"tab-group\" id=\"TabServers\">\n        </div>\n      </div>\n      </div>\n    </div>\n    <footer class=\"toolbar toolbar-footer\">\n      <textarea role=\"5\" style=\"width:100%; background-color:black; color:green;\"></textarea>\n    </footer>\n  </div>'";
     function CreateBody() {
         document.body.innerHTML = bodytemplate;
     }
@@ -17,26 +17,61 @@ var ViewModule;
         AddHeaderMenuElement(button);
     }
     ViewModule.AddHeaderMenuIconButton = AddHeaderMenuIconButton;
-    function AddNavServerItem(iconClass, itemId, title, subtitle, click_function) {
-        var titleIcon = document.createElement('span');
-        titleIcon.className = "icon {0}".replace('{0}', iconClass);
-        var titleSpan = document.createElement('span');
-        titleSpan.innerHTML = title;
+    function AddNavServerItem(iconClass, itemId, title, subtitle, navItems) {
+        var _nav = document.createElement("nav");
+        _nav.id = itemId;
+        _nav.className = "nav-group";
+        _nav.style.paddingLeft = "5px";
+        var span = document.createElement('span');
+        span.className = "icon {0}".replace('{0}', "icon-leaf");
+        _nav.appendChild(span);
+        var _tit = document.createElement("span");
+        _tit.className = "nav-group-title";
+        _tit.innerHTML = title;
+        _nav.appendChild(_tit);
         var subtitleDiv = document.createElement('div');
         subtitleDiv.style.fontSize = '60%';
         subtitleDiv.innerHTML = subtitle;
-        var container = document.createElement("div");
-        container.appendChild(titleIcon);
-        container.appendChild(titleSpan);
-        container.appendChild(subtitleDiv);
-        var navgroupitem = document.createElement("a");
-        navgroupitem.className = "nav-group-item";
-        navgroupitem.id = itemId;
-        navgroupitem.appendChild(container);
-        navgroupitem.addEventListener("click", click_function);
-        AddNavServerElement(navgroupitem);
+        _nav.appendChild(subtitleDiv);
+        if (navItems !== null) {
+            for (var _i = 0, navItems_1 = navItems; _i < navItems_1.length; _i++) {
+                var nav = navItems_1[_i];
+                var titleIcon = document.createElement('span');
+                titleIcon.className = "icon {0}".replace('{0}', iconClass);
+                var titleSpan = document.createElement('span');
+                titleSpan.innerHTML = nav;
+                var container = document.createElement("div");
+                container.appendChild(titleIcon);
+                container.appendChild(titleSpan);
+                var navgroupitem = document.createElement("a");
+                navgroupitem.className = "nav-group-item";
+                navgroupitem.id = itemId + S.Join + nav;
+                navgroupitem.appendChild(container);
+                var lu = document.createElement('lu');
+                var li = document.createElement('li');
+                li.innerHTML = "Collection 1";
+                lu.appendChild(li);
+                navgroupitem.appendChild(lu);
+                _nav.appendChild(navgroupitem);
+            }
+        }
+        AddNavServerElement(_nav);
     }
     ViewModule.AddNavServerItem = AddNavServerItem;
+    function AddNavServerItem2(iconClass, itemId, title, subtitle, click_function) {
+        var _nav = document.createElement("nav");
+        _nav.id = itemId;
+        _nav.className = "nav-group";
+        var span = document.createElement('span');
+        span.className = "icon {0}".replace('{0}', "icon-database");
+        _nav.appendChild(span);
+        var _tit = document.createElement("span");
+        _tit.className = "nav-group-title";
+        _tit.innerHTML = title;
+        _nav.appendChild(_tit);
+        AddNavServerElement(_nav);
+    }
+    ViewModule.AddNavServerItem2 = AddNavServerItem2;
     function AddTabItem(id, title, navItems) {
         var _id = "tab" + S.Join + id;
         var _ele = document.getElementById(_id);
@@ -65,8 +100,8 @@ var ViewModule;
             paneRight.id = id + S.Join + "Right";
             paneRight.className = "pane";
             if (navItems !== null) {
-                for (var _i = 0, navItems_1 = navItems; _i < navItems_1.length; _i++) {
-                    var nav = navItems_1[_i];
+                for (var _i = 0, navItems_2 = navItems; _i < navItems_2.length; _i++) {
+                    var nav = navItems_2[_i];
                     var _nav = document.createElement("nav");
                     _nav.id = id + S.Join + nav;
                     _nav.className = "nav-group";
