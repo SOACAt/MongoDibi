@@ -61,7 +61,6 @@ var ViewModule;
             var paneLeft = document.createElement('div');
             paneLeft.id = id + S.Join + "Left";
             paneLeft.className = "pane-sm sidebar";
-            paneLeft.style.backgroundColor = "#000000";
             var paneRight = document.createElement('div');
             paneRight.id = id + S.Join + "Right";
             paneRight.className = "pane";
