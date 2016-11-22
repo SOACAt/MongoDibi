@@ -2,12 +2,17 @@ import mongodb = require('mongodb');
 //import Sem = require("../ext/async");
 import S = require('../win/__sss');
 export class MgoDb {
+    private _client: MgoClient = null;
     private _name: string = '';
     private _collections: Array<string> = null;
 
-    constructor(name: string) {
+    constructor(client: MgoClient, name: string) {
+        this._client = client;
         this._name = name;
         this._collections = new Array<string>();
+    }
+    get Client(): MgoClient {
+        return this._client;
     }
     get Name(): string {
         return this._name;
@@ -15,18 +20,27 @@ export class MgoDb {
     get Collection(): Array<string> {
         return this._collections;
     }
-    ListCollections(db: mongodb.Db, callback: any) {
-        db.collections(function (err, collections) {
-            var ret:Array<string>=new Array<string>();
-            if (collections!=null){
-                for (var c of collections) {
-                    ret.push(c.collectionName);
+    ListCollections(callback: any) {
+        var url = 'mongodb://' + this._client.Server + ':' + this._client.Port + '/' + this.Name;
+        var MongoClient = new mongodb.MongoClient();
+        var _safe:MgoDb=this;
+        MongoClient.connect(url, function (err, db) {
+            if (err === null) {
+                db.collections(function (err, collections) {
+                    //var ret: Array<string> = new Array<string>();
+                    if (collections != null) {
+                        for (var c of collections) {
+                            _safe._collections.push(c.collectionName);
+                        }
+                    }
+                    db.close();
+                    callback(_safe._collections);
                 }
+                );
             }
-            
-            callback(ret);
-        }
-        );
+        });
+
+
     }
 }
 
@@ -64,7 +78,8 @@ export class MgoClient {
 
 
     ListDatabases(callback: any) {
-        var ret: Array<string> = null;
+        var _safe: MgoClient = this;
+        var ret: Array<MgoDb> = null;
         var MongoClient = new mongodb.MongoClient();
         // Connection url
         var url = 'mongodb://' + this._server + ':' + this._port + '/local';
@@ -80,27 +95,24 @@ export class MgoClient {
                     if (err === null) {
                         var l = dbs.databases.length;
                         if (l > 0) {
-                            ret = new Array<string>();
+                            ret = new Array<MgoDb>();
                             for (var i = 0; i < l; i++) {
                                 var tdb = db.db(dbs.databases[i].name);
-                                var mgoDb:MgoDb = new MgoDb(dbs.databases[i].name);
-                                mgoDb.ListCollections(tdb,(col: Array<string>) => {
-                                    
-                                    for (var c of col){
-                                        mgoDb.Collection.push(c)
-                                    }
-                                    ret.push(mgoDb.Name);
-                                });
+                                var mgoDb: MgoDb = new MgoDb(_safe, dbs.databases[i].name);
+                                ret.push(mgoDb);
+
                             }
+
                         }
                     }
                     db.close();
                     callback(ret);
+
                 });
             }
 
         });
 
     }
-   
+
 };

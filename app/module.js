@@ -18,7 +18,15 @@ var MainModule;
         var ret = app.GetConnection(ConnectionName).Databases;
         if (ret === null) {
             app.LoadDatabases(ConnectionName, function (dbs) {
-                callback(dbs);
+                app.GetConnection(ConnectionName).Databases = dbs;
+                var _back = new Array();
+                if (dbs.length > 0) {
+                    for (var _i = 0, dbs_1 = dbs; _i < dbs_1.length; _i++) {
+                        var db = dbs_1[_i];
+                        _back.push(db.Name);
+                    }
+                }
+                callback(_back);
             });
         }
         else {
@@ -26,5 +34,23 @@ var MainModule;
         }
     }
     MainModule.GetDatabaseNames = GetDatabaseNames;
+    function GetCollecionNames(ConnectionName, DataBaseName, callback) {
+        var dbs = app.GetConnection(ConnectionName).Databases;
+        if (dbs !== null) {
+            var _db = null;
+            for (var _i = 0, dbs_2 = dbs; _i < dbs_2.length; _i++) {
+                var db = dbs_2[_i];
+                if (db.Name === DataBaseName) {
+                    _db = db;
+                }
+            }
+            if (_db !== null) {
+                db.ListCollections(function (collections) {
+                    callback(collections);
+                });
+            }
+        }
+    }
+    MainModule.GetCollecionNames = GetCollecionNames;
 })(MainModule = exports.MainModule || (exports.MainModule = {}));
 //# sourceMappingURL=module.js.map

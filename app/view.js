@@ -17,61 +17,55 @@ var ViewModule;
         AddHeaderMenuElement(button);
     }
     ViewModule.AddHeaderMenuIconButton = AddHeaderMenuIconButton;
-    function AddNavServerItem(iconClass, itemId, title, subtitle, navItems) {
+    function AddNavServerItemDb(iconClass, itemId, dbname, click_function) {
+        var _nav = document.getElementById(itemId);
+        var titleIcon = document.createElement('span');
+        titleIcon.className = "icon {0}".replace('{0}', iconClass);
+        var titleSpan = document.createElement('span');
+        titleSpan.innerHTML = dbname;
+        var container = document.createElement("div");
+        container.appendChild(titleIcon);
+        container.appendChild(titleSpan);
+        var navgroupitem = document.createElement("a");
+        navgroupitem.className = "nav-group-item";
+        navgroupitem.id = itemId + S.JoinDb + dbname;
+        navgroupitem.appendChild(container);
+        navgroupitem.addEventListener("click", click_function(navgroupitem.id));
+        _nav.appendChild(navgroupitem);
+        AddNavServerElement(_nav);
+    }
+    ViewModule.AddNavServerItemDb = AddNavServerItemDb;
+    function AddNavServerItemDbCollection(iconClass, itemId, dbname, navItems) {
+        var _itemId = itemId + S.JoinDb + dbname;
+        var navgroupitem = document.getElementById(_itemId);
+        if ((navgroupitem !== null) && (navItems !== null)) {
+            for (var _i = 0, navItems_1 = navItems; _i < navItems_1.length; _i++) {
+                var nav = navItems_1[_i];
+                var lu = document.createElement('lu');
+                var li = document.createElement('li');
+                li.innerHTML = nav;
+                lu.appendChild(li);
+                li.id = navgroupitem.id + S.JoinCollection + nav;
+                navgroupitem.appendChild(lu);
+            }
+        }
+    }
+    ViewModule.AddNavServerItemDbCollection = AddNavServerItemDbCollection;
+    function AddNavServerItem(iconClass, itemId, title, subtitle) {
         var _nav = document.createElement("nav");
         _nav.id = itemId;
-        _nav.className = "nav-group";
         _nav.style.paddingLeft = "5px";
+        _nav.className = "nav-group";
         var span = document.createElement('span');
-        span.className = "icon {0}".replace('{0}', "icon-leaf");
+        span.className = "icon {0}".replace('{0}', iconClass);
         _nav.appendChild(span);
         var _tit = document.createElement("span");
         _tit.className = "nav-group-title";
         _tit.innerHTML = title;
         _nav.appendChild(_tit);
-        var subtitleDiv = document.createElement('div');
-        subtitleDiv.style.fontSize = '60%';
-        subtitleDiv.innerHTML = subtitle;
-        _nav.appendChild(subtitleDiv);
-        if (navItems !== null) {
-            for (var _i = 0, navItems_1 = navItems; _i < navItems_1.length; _i++) {
-                var nav = navItems_1[_i];
-                var titleIcon = document.createElement('span');
-                titleIcon.className = "icon {0}".replace('{0}', iconClass);
-                var titleSpan = document.createElement('span');
-                titleSpan.innerHTML = nav;
-                var container = document.createElement("div");
-                container.appendChild(titleIcon);
-                container.appendChild(titleSpan);
-                var navgroupitem = document.createElement("a");
-                navgroupitem.className = "nav-group-item";
-                navgroupitem.id = itemId + S.Join + nav;
-                navgroupitem.appendChild(container);
-                var lu = document.createElement('lu');
-                var li = document.createElement('li');
-                li.innerHTML = "Collection 1";
-                lu.appendChild(li);
-                navgroupitem.appendChild(lu);
-                _nav.appendChild(navgroupitem);
-            }
-        }
         AddNavServerElement(_nav);
     }
     ViewModule.AddNavServerItem = AddNavServerItem;
-    function AddNavServerItem2(iconClass, itemId, title, subtitle, click_function) {
-        var _nav = document.createElement("nav");
-        _nav.id = itemId;
-        _nav.className = "nav-group";
-        var span = document.createElement('span');
-        span.className = "icon {0}".replace('{0}', "icon-database");
-        _nav.appendChild(span);
-        var _tit = document.createElement("span");
-        _tit.className = "nav-group-title";
-        _tit.innerHTML = title;
-        _nav.appendChild(_tit);
-        AddNavServerElement(_nav);
-    }
-    ViewModule.AddNavServerItem2 = AddNavServerItem2;
     function AddTabItem(id, title, navItems) {
         var _id = "tab" + S.Join + id;
         var _ele = document.getElementById(_id);

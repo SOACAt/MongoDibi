@@ -1,5 +1,9 @@
 export const Split : string = '#';
 export const Join : string = '_';
+export const JoinDb : string = '|';
+export const JoinCollection : string = '[';
+
+
 
 export const Win_connection_add_msg : string = 'connection_add';
 export const Win_connection_add_save : string = 'connection_save';

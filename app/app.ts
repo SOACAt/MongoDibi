@@ -3,14 +3,17 @@ import domain = require("./domain")
 class MgoConnection {
     private __name: string;
     private __mongoClient: domain.MgoClient;
-    private __databases: Array<string>;
+    private __databases: Array<domain.MgoDb>;
 
     get Name(): string {
         return this.__name;
     }
-    get Databases(): Array<string> {
+    get Databases(): Array<domain.MgoDb> {
         return this.__databases;
 
+    }
+    set Databases(value:Array<domain.MgoDb>)  {
+        this.__databases=value;
     }
     get Client(): domain.MgoClient {
         return this.__mongoClient;
@@ -61,7 +64,7 @@ class App {
         
 
         if (ret !== null) {
-            ret.Client.ListDatabases((dbs: Array<string>) => {
+            ret.Client.ListDatabases((dbs: Array<domain.MgoDb>) => {
                 if (dbs !== null) {
 
                     callback(dbs);

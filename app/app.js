@@ -16,6 +16,9 @@ var MgoConnection = (function () {
         get: function () {
             return this.__databases;
         },
+        set: function (value) {
+            this.__databases = value;
+        },
         enumerable: true,
         configurable: true
     });

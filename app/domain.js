@@ -2,12 +2,21 @@
 var mongodb = require('mongodb');
 var S = require('../win/__sss');
 var MgoDb = (function () {
-    function MgoDb(name) {
+    function MgoDb(client, name) {
+        this._client = null;
         this._name = '';
         this._collections = null;
+        this._client = client;
         this._name = name;
         this._collections = new Array();
     }
+    Object.defineProperty(MgoDb.prototype, "Client", {
+        get: function () {
+            return this._client;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(MgoDb.prototype, "Name", {
         get: function () {
             return this._name;
@@ -22,16 +31,23 @@ var MgoDb = (function () {
         enumerable: true,
         configurable: true
     });
-    MgoDb.prototype.ListCollections = function (db, callback) {
-        db.collections(function (err, collections) {
-            var ret = new Array();
-            if (collections != null) {
-                for (var _i = 0, collections_1 = collections; _i < collections_1.length; _i++) {
-                    var c = collections_1[_i];
-                    ret.push(c.collectionName);
-                }
+    MgoDb.prototype.ListCollections = function (callback) {
+        var url = 'mongodb://' + this._client.Server + ':' + this._client.Port + '/' + this.Name;
+        var MongoClient = new mongodb.MongoClient();
+        var _safe = this;
+        MongoClient.connect(url, function (err, db) {
+            if (err === null) {
+                db.collections(function (err, collections) {
+                    if (collections != null) {
+                        for (var _i = 0, collections_1 = collections; _i < collections_1.length; _i++) {
+                            var c = collections_1[_i];
+                            _safe._collections.push(c.collectionName);
+                        }
+                    }
+                    db.close();
+                    callback(_safe._collections);
+                });
             }
-            callback(ret);
         });
     };
     return MgoDb;
@@ -79,6 +95,7 @@ var MgoClient = (function () {
         return (this._server + S.Join + this._port + S.Join + this._user).toString();
     };
     MgoClient.prototype.ListDatabases = function (callback) {
+        var _safe = this;
         var ret = null;
         var MongoClient = new mongodb.MongoClient();
         var url = 'mongodb://' + this._server + ':' + this._port + '/local';
@@ -92,14 +109,8 @@ var MgoClient = (function () {
                             ret = new Array();
                             for (var i = 0; i < l; i++) {
                                 var tdb = db.db(dbs.databases[i].name);
-                                var mgoDb = new MgoDb(dbs.databases[i].name);
-                                mgoDb.ListCollections(tdb, function (col) {
-                                    for (var _i = 0, col_1 = col; _i < col_1.length; _i++) {
-                                        var c = col_1[_i];
-                                        mgoDb.Collection.push(c);
-                                    }
-                                    ret.push(mgoDb.Name);
-                                });
+                                var mgoDb = new MgoDb(_safe, dbs.databases[i].name);
+                                ret.push(mgoDb);
                             }
                         }
                     }

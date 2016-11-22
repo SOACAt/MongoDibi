@@ -37,55 +37,55 @@ export module ViewModule {
     button.addEventListener("click", click_function);
     AddHeaderMenuElement(button);
   }
-  export function AddNavServerItem(iconClass: string, itemId: string, title: string, subtitle: string, navItems: Array<string>) {
-    var _nav = document.createElement("nav");
-    _nav.id = itemId;
-    _nav.className = "nav-group";
-    _nav.style.paddingLeft="5px";
-    var span = document.createElement('span');
-    span.className = "icon {0}".replace('{0}', "icon-leaf")
-    _nav.appendChild(span);
-    var _tit = document.createElement("span");
-    _tit.className = "nav-group-title";
-    _tit.innerHTML = title;
-    _nav.appendChild(_tit);
-    var subtitleDiv = document.createElement('div');
-    subtitleDiv.style.fontSize = '60%';
-    subtitleDiv.innerHTML = subtitle;
-    _nav.appendChild(subtitleDiv);
-    if (navItems !== null) {
-      for (var nav of navItems) {
-        var titleIcon = document.createElement('span');
-        titleIcon.className = "icon {0}".replace('{0}', iconClass);
-        var titleSpan = document.createElement('span');
-        titleSpan.innerHTML = nav;
+  export function AddNavServerItemDb(iconClass: string, itemId: string, dbname: string,  click_function: any) {
+    var _nav = document.getElementById(itemId);
 
-        var container = document.createElement("div");
-        container.appendChild(titleIcon);
-        container.appendChild(titleSpan);
-        var navgroupitem = document.createElement("a");
-        navgroupitem.className = "nav-group-item";
-        navgroupitem.id = itemId + S.Join + nav;
-        navgroupitem.appendChild(container);
-        
+    var titleIcon = document.createElement('span');
+    titleIcon.className = "icon {0}".replace('{0}', iconClass);
+    var titleSpan = document.createElement('span');
+    titleSpan.innerHTML = dbname;
+
+    var container = document.createElement("div");
+    container.appendChild(titleIcon);
+    container.appendChild(titleSpan);
+    var navgroupitem = document.createElement("a");
+    navgroupitem.className = "nav-group-item";
+    navgroupitem.id = itemId + S.JoinDb + dbname;
+    navgroupitem.appendChild(container);
+    navgroupitem.addEventListener("click", click_function(navgroupitem.id));
+
+    _nav.appendChild(navgroupitem);
+    AddNavServerElement(_nav);
+  }
+  export function AddNavServerItemDbCollection(iconClass: string, itemId: string, dbname: string, navItems: Array<string>) {
+    var _itemId = itemId + S.JoinDb + dbname;
+    var navgroupitem = document.getElementById(_itemId);
+    if ((navgroupitem!==null) && (navItems !== null)) {
+
+      for (var nav of navItems) {
+
+
         var lu = document.createElement('lu');
         var li = document.createElement('li');
-        li.innerHTML="Collection 1";
+        li.innerHTML = nav;
         lu.appendChild(li);
+        li.id = navgroupitem.id + S.JoinCollection + nav;
         navgroupitem.appendChild(lu);
-        _nav.appendChild(navgroupitem);
+
         //navgroupitem.addEventListener("click", click_function);
         //AddNavServerElement(navgroupitem);
       }
+
     }
-    AddNavServerElement(_nav);
+
   }
-  export function AddNavServerItem2(iconClass: string, itemId: string, title: string, subtitle: string, click_function: any) {
+  export function AddNavServerItem(iconClass: string, itemId: string, title: string, subtitle: string) {
     var _nav = document.createElement("nav");
     _nav.id = itemId;
+    _nav.style.paddingLeft = "5px";
     _nav.className = "nav-group";
     var span = document.createElement('span');
-    span.className = "icon {0}".replace('{0}', "icon-database")
+    span.className = "icon {0}".replace('{0}', iconClass)
     _nav.appendChild(span);
     var _tit = document.createElement("span");
     _tit.className = "nav-group-title";

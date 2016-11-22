@@ -21,15 +21,26 @@ ipcRenderer.on(S.Win_main_add_server, (event: any, arg: any) => {
             var _title: string = _args[0];
             var _subtitle: string = "port: " + _args[1];
             if (_args[2] !== '') _subtitle += " user: " + _args[2];
-            MM.MainModule.GetDatabaseNames(_itemId, (dbs:Array<string>)=>{
-                    VW.ViewModule.AddNavServerItem("icon-database", _itemId, _title, _subtitle,dbs);
+            VW.ViewModule.AddNavServerItem("icon-leaf", _itemId, _title, _subtitle);
+            MM.MainModule.GetDatabaseNames(_itemId, (dbs: Array<string>) => {
+                if (dbs.length > 0) {
+                    for (var db of dbs) {
+
+                        VW.ViewModule.AddNavServerItemDb("icon-database", _itemId, db, (_localdb:string) => {
+                            var serverId:string=_localdb.split(S.JoinDb)[0];
+                            var localdb:string=_localdb.split(S.JoinDb)[1];
+                            MM.MainModule.GetCollecionNames(serverId, localdb, (collec: Array<string>) => {
+                                VW.ViewModule.AddNavServerItemDbCollection("icon-database", serverId, localdb, collec);
+                            });
+                        });
+
+
+                    }
+                }
+
+                //VW.ViewModule.AddNavServerItem("icon-database", _itemId, _title, _subtitle, dbs);
             });
-            /*VW.ViewModule.AddNavServerItem("icon-database", _itemId, _title, _subtitle, () => {
-                MM.MainModule.GetDatabaseNames(_itemId, (dbs:Array<string>)=>{
-                    VW.ViewModule.AddTabItem(_itemId, _title, dbs);
-                });
-                
-            });*/
+
         }
 
 
