@@ -1,8 +1,8 @@
-import MgoClient = require("./domain")
+import domain = require("./domain")
 
 class MgoConnection {
     private __name: string;
-    private __mongoClient: MgoClient;
+    private __mongoClient: domain.MgoClient;
     private __databases: Array<string>;
 
     get Name(): string {
@@ -12,10 +12,10 @@ class MgoConnection {
         return this.__databases;
 
     }
-    get Client(): MgoClient {
+    get Client(): domain.MgoClient {
         return this.__mongoClient;
     }
-    constructor(mongoClient: MgoClient) {
+    constructor(mongoClient: domain.MgoClient) {
         this.__mongoClient = mongoClient;
         this.__name = mongoClient.GetName();
         this.__databases = null;
@@ -51,7 +51,7 @@ class App {
 
         return ret;
     }
-    AddConnection(mongoClient: MgoClient) {
+    AddConnection(mongoClient: domain.MgoClient) {
         if (this.__mgoConnections === null) this.__mgoConnections = new Array<MgoConnection>();
         var mgoc = new MgoConnection(mongoClient);
         this.__mgoConnections.push(mgoc);

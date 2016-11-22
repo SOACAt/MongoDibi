@@ -1,11 +1,11 @@
 "use strict";
-var MgoClient = require("./domain");
+var domain = require("./domain");
 var App = require("./app");
 var MainModule;
 (function (MainModule) {
     var app = new App();
     function AddConnection(server, port, user) {
-        var mc = new MgoClient(server, port, user);
+        var mc = new domain.MgoClient(server, port, user);
         app.AddConnection(mc);
         return mc.GetName();
     }

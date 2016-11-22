@@ -1,4 +1,4 @@
-import MgoClient = require("./domain")
+import domain = require("./domain")
 import App = require("./app")
 
 
@@ -7,7 +7,7 @@ export module MainModule {
 
     export function AddConnection(server: string, port: number, user?: string): string {
 
-        var mc = new MgoClient(server, port, user);
+        var mc = new domain.MgoClient(server, port, user);
         app.AddConnection(mc);
         return mc.GetName();
 

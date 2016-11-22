@@ -1,6 +1,42 @@
 "use strict";
 var mongodb = require('mongodb');
 var S = require('../win/__sss');
+var MgoDb = (function () {
+    function MgoDb(name) {
+        this._name = '';
+        this._collections = null;
+        this._name = name;
+        this._collections = new Array();
+    }
+    Object.defineProperty(MgoDb.prototype, "Name", {
+        get: function () {
+            return this._name;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MgoDb.prototype, "Collection", {
+        get: function () {
+            return this._collections;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    MgoDb.prototype.ListCollections = function (db, callback) {
+        db.collections(function (err, collections) {
+            var ret = new Array();
+            if (collections != null) {
+                for (var _i = 0, collections_1 = collections; _i < collections_1.length; _i++) {
+                    var c = collections_1[_i];
+                    ret.push(c.collectionName);
+                }
+            }
+            callback(ret);
+        });
+    };
+    return MgoDb;
+}());
+exports.MgoDb = MgoDb;
 var MgoClient = (function () {
     function MgoClient(server, port, user) {
         this._server = '';
@@ -55,7 +91,15 @@ var MgoClient = (function () {
                         if (l > 0) {
                             ret = new Array();
                             for (var i = 0; i < l; i++) {
-                                ret.push(dbs.databases[i].name);
+                                var tdb = db.db(dbs.databases[i].name);
+                                var mgoDb = new MgoDb(dbs.databases[i].name);
+                                mgoDb.ListCollections(tdb, function (col) {
+                                    for (var _i = 0, col_1 = col; _i < col_1.length; _i++) {
+                                        var c = col_1[_i];
+                                        mgoDb.Collection.push(c);
+                                    }
+                                    ret.push(mgoDb.Name);
+                                });
                             }
                         }
                     }
@@ -64,10 +108,9 @@ var MgoClient = (function () {
                 });
             }
         });
-        return ret;
     };
     return MgoClient;
 }());
+exports.MgoClient = MgoClient;
 ;
-module.exports = MgoClient;
 //# sourceMappingURL=domain.js.map
