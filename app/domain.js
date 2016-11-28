@@ -38,14 +38,15 @@ var MgoDb = (function () {
         MongoClient.connect(url, function (err, db) {
             if (err === null) {
                 db.collections(function (err, collections) {
+                    var ret = new Array();
                     if (collections != null) {
                         for (var _i = 0, collections_1 = collections; _i < collections_1.length; _i++) {
                             var c = collections_1[_i];
-                            _safe._collections.push(c.collectionName);
+                            ret.push(c.collectionName);
                         }
                     }
                     db.close();
-                    callback(_safe._collections);
+                    callback(ret);
                 });
             }
         });

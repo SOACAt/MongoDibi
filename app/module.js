@@ -45,7 +45,7 @@ var MainModule;
                 }
             }
             if (_db !== null) {
-                db.ListCollections(function (collections) {
+                _db.ListCollections(function (collections) {
                     callback(collections);
                 });
             }

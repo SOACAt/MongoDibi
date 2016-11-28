@@ -48,7 +48,7 @@ export module MainModule {
                 }
             }
             if (_db!==null){
-                db.ListCollections((collections:Array<string>)=>{
+                _db.ListCollections((collections:Array<string>)=>{
                     callback(collections);
                 });
             }

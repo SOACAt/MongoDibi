@@ -27,14 +27,14 @@ export class MgoDb {
         MongoClient.connect(url, function (err, db) {
             if (err === null) {
                 db.collections(function (err, collections) {
-                    //var ret: Array<string> = new Array<string>();
+                    var ret: Array<string> = new Array<string>();
                     if (collections != null) {
                         for (var c of collections) {
-                            _safe._collections.push(c.collectionName);
+                            ret.push(c.collectionName);
                         }
                     }
                     db.close();
-                    callback(_safe._collections);
+                    callback(ret);
                 }
                 );
             }

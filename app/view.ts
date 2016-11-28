@@ -37,7 +37,7 @@ export module ViewModule {
     button.addEventListener("click", click_function);
     AddHeaderMenuElement(button);
   }
-  export function AddNavServerItemDb(iconClass: string, itemId: string, dbname: string,  click_function: any) {
+  export function AddNavServerItemDb(iconClass: string, itemId: string, dbname: string, click_function: any) {
     var _nav = document.getElementById(itemId);
 
     var titleIcon = document.createElement('span');
@@ -52,7 +52,7 @@ export module ViewModule {
     navgroupitem.className = "nav-group-item";
     navgroupitem.id = itemId + S.JoinDb + dbname;
     navgroupitem.appendChild(container);
-    navgroupitem.addEventListener("click", click_function(navgroupitem.id));
+    navgroupitem.addEventListener("click", click_function);
 
     _nav.appendChild(navgroupitem);
     AddNavServerElement(_nav);
@@ -60,22 +60,27 @@ export module ViewModule {
   export function AddNavServerItemDbCollection(iconClass: string, itemId: string, dbname: string, navItems: Array<string>) {
     var _itemId = itemId + S.JoinDb + dbname;
     var navgroupitem = document.getElementById(_itemId);
-    if ((navgroupitem!==null) && (navItems !== null)) {
-
+    if ((navgroupitem !== null) && (navItems !== null)) {
+      if (navgroupitem.childElementCount > 1) {
+        var obj = document.getElementById(itemId + 'lu');
+        navgroupitem.removeChild(obj);
+      }
+      var lu = document.createElement('lu');
+      lu.id = itemId + 'lu';
       for (var nav of navItems) {
 
 
-        var lu = document.createElement('lu');
+
         var li = document.createElement('li');
         li.innerHTML = nav;
         lu.appendChild(li);
         li.id = navgroupitem.id + S.JoinCollection + nav;
-        navgroupitem.appendChild(lu);
+
 
         //navgroupitem.addEventListener("click", click_function);
         //AddNavServerElement(navgroupitem);
       }
-
+      navgroupitem.appendChild(lu);
     }
 
   }
