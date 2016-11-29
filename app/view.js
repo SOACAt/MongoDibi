@@ -28,6 +28,7 @@ var ViewModule;
         container.appendChild(titleSpan);
         var navgroupitem = document.createElement("a");
         navgroupitem.className = "nav-group-item";
+        navgroupitem.style.padding = '1px 1px 10px 1px';
         navgroupitem.id = itemId + S.JoinDb + dbname;
         navgroupitem.appendChild(container);
         navgroupitem.addEventListener("click", click_function);
@@ -44,11 +45,14 @@ var ViewModule;
                 navgroupitem.removeChild(obj);
             }
             var lu = document.createElement('lu');
+            lu.style.listStyleType = 'none';
+            lu.style.fontSize = '11px';
             lu.id = itemId + 'lu';
             for (var _i = 0, navItems_1 = navItems; _i < navItems_1.length; _i++) {
                 var nav = navItems_1[_i];
                 var li = document.createElement('li');
-                li.innerHTML = nav;
+                li.innerHTML = '<span class="icon icon-docs"></span><span>' + nav + '</span>';
+                li.style.padding = '1px 1px 1px 10px';
                 lu.appendChild(li);
                 li.id = navgroupitem.id + S.JoinCollection + nav;
             }
