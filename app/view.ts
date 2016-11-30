@@ -98,6 +98,9 @@ export module ViewModule {
     _nav.appendChild(span);
     var _tit = document.createElement("span");
     _tit.className = "nav-group-title";
+    _tit.style.fontSize='14px';
+    _tit.style.fontWeight='bolder';
+    _tit.style.color='#228B22';
     _tit.innerHTML = title;
     _nav.appendChild(_tit);
 
