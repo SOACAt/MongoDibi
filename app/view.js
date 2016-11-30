@@ -26,17 +26,16 @@ var ViewModule;
         var container = document.createElement("div");
         container.appendChild(titleIcon);
         container.appendChild(titleSpan);
-        var navgroupitem = document.createElement("a");
-        navgroupitem.className = "nav-group-item";
+        container.addEventListener("click", click_function);
+        var navgroupitem = document.createElement("div");
         navgroupitem.style.padding = '1px 1px 10px 1px';
         navgroupitem.id = itemId + S.JoinDb + dbname;
         navgroupitem.appendChild(container);
-        navgroupitem.addEventListener("click", click_function);
         _nav.appendChild(navgroupitem);
         AddNavServerElement(_nav);
     }
     ViewModule.AddNavServerItemDb = AddNavServerItemDb;
-    function AddNavServerItemDbCollection(iconClass, itemId, dbname, navItems) {
+    function AddNavServerItemDbCollection(iconClass, itemId, dbname, navItems, click_function) {
         var _itemId = itemId + S.JoinDb + dbname;
         var navgroupitem = document.getElementById(_itemId);
         if ((navgroupitem !== null) && (navItems !== null)) {
@@ -50,8 +49,14 @@ var ViewModule;
             lu.id = itemId + 'lu';
             for (var _i = 0, navItems_1 = navItems; _i < navItems_1.length; _i++) {
                 var nav = navItems_1[_i];
+                var spanicon = document.createElement('span');
+                spanicon.className = "icon {0}".replace('{0}', iconClass);
+                var spantit = document.createElement('span');
+                spantit.innerHTML = nav;
                 var li = document.createElement('li');
-                li.innerHTML = '<span class="icon icon-docs"></span><span>' + nav + '</span>';
+                li.appendChild(spanicon);
+                li.appendChild(spantit);
+                spantit.addEventListener("click", click_function);
                 li.style.padding = '1px 1px 1px 10px';
                 lu.appendChild(li);
                 li.id = navgroupitem.id + S.JoinCollection + nav;

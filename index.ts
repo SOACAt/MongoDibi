@@ -26,10 +26,12 @@ ipcRenderer.on(S.Win_main_add_server, (event: any, arg: any) => {
                 if (dbs.length > 0) {
                     for (var db of dbs) {
                         VW.ViewModule.AddNavServerItemDb("icon-database", _itemId, db, (event: any) => {
-                            var serverId:string=event.currentTarget.id.split(S.JoinDb)[0];
-                            var localdb:string=event.currentTarget.id.split(S.JoinDb)[1];
+                            var serverId:string=event.currentTarget.parentElement.id.split(S.JoinDb)[0];
+                            var localdb:string=event.currentTarget.parentElement.id.split(S.JoinDb)[1];
                             MM.MainModule.GetCollecionNames(serverId, localdb, (collec: Array<string>) => {
-                                VW.ViewModule.AddNavServerItemDbCollection("icon-database", serverId, localdb, collec);
+                                VW.ViewModule.AddNavServerItemDbCollection("icon-docs", serverId, localdb, collec,(event: any) => {
+                                    alert(event.currentTarget.parentElement.id);
+                                });
                             });
                         });
 
