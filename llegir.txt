@@ -1,4 +1,5 @@
-
+http://marianoguerra.github.io/json.human.js/
+https://github.com/padolsey-archive/prettyprint.js
 
 
 pels tipus de typescript

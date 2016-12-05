@@ -1,3 +1,5 @@
+const JSONFormatter = require("../node_modules/json-formatter-js/dist/json-formatter.js");
+
 const S = require("../win/__sss")
 export module ViewModule {
 
@@ -14,7 +16,7 @@ export module ViewModule {
           
         </div>
       <div class="pane">
-        <div class="tab-group" id="TabServers">
+        <div class="tab-group" id="TabDocuments">
         </div>
       </div>
       </div>
@@ -51,7 +53,7 @@ export module ViewModule {
     container.addEventListener("click", click_function);
     var navgroupitem = document.createElement("div"); // a
     //navgroupitem.className = "nav-group-item";
-    navgroupitem.style.padding ='1px 1px 10px 1px';
+    navgroupitem.style.padding = '1px 1px 10px 1px';
     navgroupitem.id = itemId + S.JoinDb + dbname;
     navgroupitem.appendChild(container);
     //navgroupitem.addEventListener("click", click_function);
@@ -68,19 +70,19 @@ export module ViewModule {
         navgroupitem.removeChild(obj);
       }
       var lu = document.createElement('lu');
-      lu.style.listStyleType='none';
-      lu.style.fontSize='11px';
+      lu.style.listStyleType = 'none';
+      lu.style.fontSize = '11px';
       lu.id = itemId + 'lu';
       for (var nav of navItems) {
-        var spanicon=document.createElement('span');
-        spanicon.className="icon {0}".replace('{0}', iconClass);
-        var spantit=document.createElement('span');
-        spantit.innerHTML=nav;
+        var spanicon = document.createElement('span');
+        spanicon.className = "icon {0}".replace('{0}', iconClass);
+        var spantit = document.createElement('span');
+        spantit.innerHTML = nav;
         var li = document.createElement('li');
         li.appendChild(spanicon);
         li.appendChild(spantit);
         spantit.addEventListener("click", click_function);
-        li.style.padding='1px 1px 1px 10px';
+        li.style.padding = '1px 1px 1px 10px';
         lu.appendChild(li);
         li.id = navgroupitem.id + S.JoinCollection + nav;
 
@@ -101,9 +103,9 @@ export module ViewModule {
     _nav.appendChild(span);
     var _tit = document.createElement("span");
     _tit.className = "nav-group-title";
-    _tit.style.fontSize='14px';
-    _tit.style.fontWeight='bolder';
-    _tit.style.color='#228B22';
+    _tit.style.fontSize = '14px';
+    _tit.style.fontWeight = 'bolder';
+    _tit.style.color = '#228B22';
     _tit.innerHTML = title;
     _nav.appendChild(_tit);
 
@@ -131,7 +133,16 @@ export module ViewModule {
      AddNavServerElement(navgroupitem);*/
   }
 
+  export function AddDocuments(docs: Array<any>) {
+    var _container = document.getElementById('TabDocuments');
+    var jsonString = docs; // JSON.stringify(docs[0]);
+    var formatter = new JSONFormatter(jsonString);
 
+    _container.appendChild(formatter.render());
+
+
+
+  }
   export function AddTabItem(id: string, title: string, navItems: Array<string>) {
     var _id: string = "tab" + S.Join + id;
     var _ele: HTMLElement = document.getElementById(_id);

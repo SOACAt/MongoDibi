@@ -1,5 +1,6 @@
 const {ipcRenderer} = require('electron')
 
+
 const S = require("./win/__sss")
 
 import VW = require('./app/view');
@@ -34,8 +35,9 @@ ipcRenderer.on(S.Win_main_add_server, (event: any, arg: any) => {
                                     var dbId=event.currentTarget.parentElement.id.split(S.JoinDb)[1].split(S.JoinCollection)[0];
                                     var colId=event.currentTarget.parentElement.id.split(S.JoinDb)[1].split(S.JoinCollection)[1];
                                         MM.MainModule.GetCollecionDocuments(sId,dbId,colId,(docs: Array<any>) => {
-                                            alert(docs.length);
+                                            //alert(docs.length);
                                             var myJsonString = JSON.stringify(docs);
+                                            VW.ViewModule.AddDocuments(docs);
                                         });
                                     
                                 });
