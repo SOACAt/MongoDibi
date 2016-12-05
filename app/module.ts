@@ -1,3 +1,4 @@
+const S = require("../win/__sss")
 import domain = require("./domain")
 import App = require("./app")
 
@@ -57,6 +58,39 @@ export module MainModule {
 
         }
     }
+    export function GetCollecionDocuments(ConnectionName: string,DataBaseName:string, CollectionName: string, callback: any) {
+            GetCollecionNames(ConnectionName,DataBaseName,(collec: Array<string>) => {
+                if (collec!==null){
+                    var indexof:number=collec.indexOf(CollectionName);
+                    if (indexof > -1){
+                        var server:string=ConnectionName.split(S.Join)[0];
+                        var port:number=Number(ConnectionName.split(S.Join)[1]);
+                        var user:string=ConnectionName.split(S.Join)[2];
+                        var client:domain.MgoClient=new domain.MgoClient(server,port,user);
+                        var db:domain.MgoDb=new domain.MgoDb(client,DataBaseName)
+                        var collection:domain.MgoCollection=new domain.MgoCollection(db,CollectionName);
+                        if (collection!==null){
+                            collection.ListDocuments((documents:Array<any>) => {
+                                var a=documents;
+                                callback(documents);
+
+                            });
+                        }
+
+                    }
+                }
+                
+                
+
+
+            });
+
+            
+
+
+    }
+
+
 }
 
 

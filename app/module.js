@@ -1,4 +1,5 @@
 "use strict";
+var S = require("../win/__sss");
 var domain = require("./domain");
 var App = require("./app");
 var MainModule;
@@ -52,5 +53,27 @@ var MainModule;
         }
     }
     MainModule.GetCollecionNames = GetCollecionNames;
+    function GetCollecionDocuments(ConnectionName, DataBaseName, CollectionName, callback) {
+        GetCollecionNames(ConnectionName, DataBaseName, function (collec) {
+            if (collec !== null) {
+                var indexof = collec.indexOf(CollectionName);
+                if (indexof > -1) {
+                    var server = ConnectionName.split(S.Join)[0];
+                    var port = Number(ConnectionName.split(S.Join)[1]);
+                    var user = ConnectionName.split(S.Join)[2];
+                    var client = new domain.MgoClient(server, port, user);
+                    var db = new domain.MgoDb(client, DataBaseName);
+                    var collection = new domain.MgoCollection(db, CollectionName);
+                    if (collection !== null) {
+                        collection.ListDocuments(function (documents) {
+                            var a = documents;
+                            callback(documents);
+                        });
+                    }
+                }
+            }
+        });
+    }
+    MainModule.GetCollecionDocuments = GetCollecionDocuments;
 })(MainModule = exports.MainModule || (exports.MainModule = {}));
 //# sourceMappingURL=module.js.map

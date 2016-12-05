@@ -1,6 +1,30 @@
 "use strict";
 var mongodb = require('mongodb');
 var S = require('../win/__sss');
+var MgoCollection = (function () {
+    function MgoCollection(db, name) {
+        this._db = null;
+        this._name = '';
+        this._db = db;
+        this._name = name;
+    }
+    MgoCollection.prototype.ListDocuments = function (callback) {
+        var url = 'mongodb://' + this._db.Client.Server + ':' + this._db.Client.Port + '/' + this._db.Name;
+        var MongoClient = new mongodb.MongoClient();
+        var safe = this;
+        MongoClient.connect(url, function (err, db) {
+            if (err === null) {
+                var col = db.collection(safe._name);
+                col.find({}).limit(50).toArray(function (err, items) {
+                    db.close();
+                    callback(items);
+                });
+            }
+        });
+    };
+    return MgoCollection;
+}());
+exports.MgoCollection = MgoCollection;
 var MgoDb = (function () {
     function MgoDb(client, name) {
         this._client = null;

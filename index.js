@@ -27,7 +27,13 @@ ipcRenderer.on(S.Win_main_add_server, function (event, arg) {
                             var localdb = event.currentTarget.parentElement.id.split(S.JoinDb)[1];
                             MM.MainModule.GetCollecionNames(serverId, localdb, function (collec) {
                                 VW.ViewModule.AddNavServerItemDbCollection("icon-docs", serverId, localdb, collec, function (event) {
-                                    alert(event.currentTarget.parentElement.id);
+                                    var sId = event.currentTarget.parentElement.id.split(S.JoinDb)[0];
+                                    var dbId = event.currentTarget.parentElement.id.split(S.JoinDb)[1].split(S.JoinCollection)[0];
+                                    var colId = event.currentTarget.parentElement.id.split(S.JoinDb)[1].split(S.JoinCollection)[1];
+                                    MM.MainModule.GetCollecionDocuments(sId, dbId, colId, function (docs) {
+                                        alert(docs.length);
+                                        var myJsonString = JSON.stringify(docs);
+                                    });
                                 });
                             });
                         });

@@ -1,6 +1,39 @@
 import mongodb = require('mongodb');
 //import Sem = require("../ext/async");
 import S = require('../win/__sss');
+export class MgoCollection {
+    private _db: MgoDb = null;
+    private _name: string = '';
+    private _documents: any;
+    constructor(db: MgoDb, name: string) {
+        this._db = db;
+        this._name = name;
+
+    }
+    ListDocuments(callback: any) {
+        var url = 'mongodb://' + this._db.Client.Server + ':' + this._db.Client.Port + '/' + this._db.Name;
+        var MongoClient = new mongodb.MongoClient();
+        var safe=this;
+        MongoClient.connect(url, function (err, db) {
+            if (err === null) {
+                // Create a collection we want to drop later
+                var col = db.collection(safe._name);
+                // Show that duplicate records got dropped
+                col.find({}).limit(50).toArray(function (err, items) {
+                   
+                    db.close();
+
+                    callback(items);
+                });
+            }
+        });
+
+
+    }
+
+}
+
+
 export class MgoDb {
     private _client: MgoClient = null;
     private _name: string = '';
@@ -23,7 +56,7 @@ export class MgoDb {
     ListCollections(callback: any) {
         var url = 'mongodb://' + this._client.Server + ':' + this._client.Port + '/' + this.Name;
         var MongoClient = new mongodb.MongoClient();
-        var _safe:MgoDb=this;
+        var _safe: MgoDb = this;
         MongoClient.connect(url, function (err, db) {
             if (err === null) {
                 db.collections(function (err, collections) {
