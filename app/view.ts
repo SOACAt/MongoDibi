@@ -1,4 +1,5 @@
 const JSONFormatter = require("../node_modules/json-formatter-js/dist/json-formatter.js");
+const JSONEditor = require("../node_modules/jsoneditor/dist/jsoneditor.js")
 
 const S = require("../win/__sss")
 export module ViewModule {
@@ -137,9 +138,12 @@ export module ViewModule {
     var _container = document.getElementById('TabDocuments');
     var jsonString = docs; // JSON.stringify(docs[0]);
     var formatter = new JSONFormatter(jsonString);
+    var options = {};
+    var editor = new JSONEditor(_container,options);
+    editor.set(jsonString);
 
     _container.appendChild(formatter.render());
-
+    _container.appendChild(editor);
 
 
   }

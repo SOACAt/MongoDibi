@@ -1,6 +1,6 @@
 http://marianoguerra.github.io/json.human.js/
 https://github.com/padolsey-archive/prettyprint.js
-
+https://github.com/josdejong/jsoneditor
 
 pels tipus de typescript
 

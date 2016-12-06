@@ -1,5 +1,6 @@
 "use strict";
 var JSONFormatter = require("../node_modules/json-formatter-js/dist/json-formatter.js");
+var JSONEditor = require("../node_modules/jsoneditor/dist/jsoneditor.js");
 var S = require("../win/__sss");
 var ViewModule;
 (function (ViewModule) {
@@ -88,7 +89,11 @@ var ViewModule;
         var _container = document.getElementById('TabDocuments');
         var jsonString = docs;
         var formatter = new JSONFormatter(jsonString);
+        var options = {};
+        var editor = new JSONEditor(_container, options);
+        editor.set(jsonString);
         _container.appendChild(formatter.render());
+        _container.appendChild(editor);
     }
     ViewModule.AddDocuments = AddDocuments;
     function AddTabItem(id, title, navItems) {
