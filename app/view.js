@@ -4,7 +4,7 @@ var JSONEditor = require("../node_modules/jsoneditor/dist/jsoneditor.js");
 var S = require("../win/__sss");
 var ViewModule;
 (function (ViewModule) {
-    var bodytemplate = "<div class=\"window\">\n    <header class=\"toolbar toolbar-header\">\n      <!-- Large button group -->\n      <div id='HeaderMenu' class=\"btn-group\">\n        \n      </div>\n    </header>\n    <div class=\"window-content\">\n      <div class=\"pane-group\">\n        <div id=\"NavServers\" class=\"pane-sm sidebar\">\n          \n        </div>\n      <div class=\"pane\">\n        <div class=\"tab-group\" id=\"TabDocuments\">\n\n        </div>\n      </div>\n      </div>\n    </div>\n    <footer class=\"toolbar toolbar-footer\">\n      <textarea role=\"5\" style=\"width:100%; background-color:black; color:green;\"></textarea>\n    </footer>\n  </div>'";
+    var bodytemplate = "<div class=\"window\">\n    <header class=\"toolbar toolbar-header\">\n      <!-- Large button group -->\n      <div id='HeaderMenu' class=\"btn-group\">\n        \n      </div>\n    </header>\n    <div class=\"window-content\">\n      <div class=\"pane-group\">\n        <div id=\"NavServers\" class=\"pane-sm sidebar\">\n           \n        </div>\n      <div class=\"pane\">\n        <div class=\"tab-group\" id=\"TabDocuments\" style=\"display:flex;flex-direction: column;min-height: 100vh;\">\n\n        </div>\n      </div>\n      </div>\n    </div>\n    <footer class=\"toolbar toolbar-footer\">\n      <textarea role=\"5\" style=\"width:100%; background-color:black; color:green;\"></textarea>\n    </footer>\n  </div>'";
     function CreateBody() {
         document.body.innerHTML = bodytemplate;
     }
@@ -102,13 +102,12 @@ var ViewModule;
             tabItem.id = _id;
             tabItem.appendChild(spanTitle);
             var _container = document.getElementById('TabDocuments');
+            _container.appendChild(tabItem);
             var jsonString = docs;
             var formatter = new JSONFormatter(jsonString);
             var options = {};
-            var editor = new JSONEditor(_container, options);
+            var editor = new JSONEditor(tabItem, options);
             editor.set(jsonString);
-            tabItem.appendChild(formatter.render());
-            _container.appendChild(tabItem);
         }
         else {
             _ele.focus();

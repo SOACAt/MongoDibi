@@ -14,10 +14,10 @@ export module ViewModule {
     <div class="window-content">
       <div class="pane-group">
         <div id="NavServers" class="pane-sm sidebar">
-          
+           
         </div>
       <div class="pane">
-        <div class="tab-group" id="TabDocuments">
+        <div class="tab-group" id="TabDocuments" style="display:flex;flex-direction: column;min-height: 100vh;">
 
         </div>
       </div>
@@ -154,15 +154,17 @@ export module ViewModule {
       tabItem.appendChild(spanTitle);
 
     var _container = document.getElementById('TabDocuments');
+
+    _container.appendChild(tabItem);
     var jsonString = docs; // JSON.stringify(docs[0]);
     var formatter = new JSONFormatter(jsonString);
     var options = {};
-    var editor = new JSONEditor(_container, options);
+    var editor = new JSONEditor(tabItem, options);
     editor.set(jsonString);
 
-    tabItem.appendChild(formatter.render());
-    //tabItem.appendChild(editor);
-    _container.appendChild(tabItem);
+    //tabItem.appendChild(formatter.render());
+
+    
 
 
     }else {
