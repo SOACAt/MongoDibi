@@ -18,6 +18,7 @@ export module ViewModule {
         </div>
       <div class="pane">
         <div class="tab-group" id="TabDocuments">
+
         </div>
       </div>
       </div>
@@ -134,17 +135,44 @@ export module ViewModule {
      AddNavServerElement(navgroupitem);*/
   }
 
-  export function AddDocuments(docs: Array<any>) {
+  export function AddDocuments(id: string, docs: Array<any>) {
+    var _id: string = "tab" + S.Join + id;
+    var _ele: HTMLElement = document.getElementById(_id);
+    if (_ele === null) {
+      var spanHead = document.createElement('span');
+      spanHead.className = 'icon icon-cancel icon-close-tab';
+      spanHead.addEventListener("click", () => {
+        Remove(_id);
+      });
+
+    var spanTitle = document.createElement('span');
+      spanTitle.innerHTML = "title";
+      var tabItem = document.createElement('div');
+      tabItem.className = 'tab-item';
+      tabItem.appendChild(spanHead);
+      tabItem.id = _id;
+      tabItem.appendChild(spanTitle);
+
     var _container = document.getElementById('TabDocuments');
     var jsonString = docs; // JSON.stringify(docs[0]);
     var formatter = new JSONFormatter(jsonString);
     var options = {};
-    var editor = new JSONEditor(_container,options);
+    var editor = new JSONEditor(_container, options);
     editor.set(jsonString);
 
-    _container.appendChild(formatter.render());
-    _container.appendChild(editor);
+    tabItem.appendChild(formatter.render());
+    //tabItem.appendChild(editor);
+    _container.appendChild(tabItem);
 
+
+    }else {
+      _ele.focus();
+    }
+     
+
+    
+    
+   
 
   }
   export function AddTabItem(id: string, title: string, navItems: Array<string>) {
@@ -215,7 +243,7 @@ export module ViewModule {
     return 'NavServers';
   }
   function GetTabServersId(): string {
-    return 'TabServers';
+    return 'TabDocuments';
   }
 
   function AddHeaderMenuElement(element: HTMLElement) {

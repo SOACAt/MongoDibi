@@ -4,7 +4,7 @@ var JSONEditor = require("../node_modules/jsoneditor/dist/jsoneditor.js");
 var S = require("../win/__sss");
 var ViewModule;
 (function (ViewModule) {
-    var bodytemplate = "<div class=\"window\">\n    <header class=\"toolbar toolbar-header\">\n      <!-- Large button group -->\n      <div id='HeaderMenu' class=\"btn-group\">\n        \n      </div>\n    </header>\n    <div class=\"window-content\">\n      <div class=\"pane-group\">\n        <div id=\"NavServers\" class=\"pane-sm sidebar\">\n          \n        </div>\n      <div class=\"pane\">\n        <div class=\"tab-group\" id=\"TabDocuments\">\n        </div>\n      </div>\n      </div>\n    </div>\n    <footer class=\"toolbar toolbar-footer\">\n      <textarea role=\"5\" style=\"width:100%; background-color:black; color:green;\"></textarea>\n    </footer>\n  </div>'";
+    var bodytemplate = "<div class=\"window\">\n    <header class=\"toolbar toolbar-header\">\n      <!-- Large button group -->\n      <div id='HeaderMenu' class=\"btn-group\">\n        \n      </div>\n    </header>\n    <div class=\"window-content\">\n      <div class=\"pane-group\">\n        <div id=\"NavServers\" class=\"pane-sm sidebar\">\n          \n        </div>\n      <div class=\"pane\">\n        <div class=\"tab-group\" id=\"TabDocuments\">\n\n        </div>\n      </div>\n      </div>\n    </div>\n    <footer class=\"toolbar toolbar-footer\">\n      <textarea role=\"5\" style=\"width:100%; background-color:black; color:green;\"></textarea>\n    </footer>\n  </div>'";
     function CreateBody() {
         document.body.innerHTML = bodytemplate;
     }
@@ -85,15 +85,34 @@ var ViewModule;
         AddNavServerElement(_nav);
     }
     ViewModule.AddNavServerItem = AddNavServerItem;
-    function AddDocuments(docs) {
-        var _container = document.getElementById('TabDocuments');
-        var jsonString = docs;
-        var formatter = new JSONFormatter(jsonString);
-        var options = {};
-        var editor = new JSONEditor(_container, options);
-        editor.set(jsonString);
-        _container.appendChild(formatter.render());
-        _container.appendChild(editor);
+    function AddDocuments(id, docs) {
+        var _id = "tab" + S.Join + id;
+        var _ele = document.getElementById(_id);
+        if (_ele === null) {
+            var spanHead = document.createElement('span');
+            spanHead.className = 'icon icon-cancel icon-close-tab';
+            spanHead.addEventListener("click", function () {
+                Remove(_id);
+            });
+            var spanTitle = document.createElement('span');
+            spanTitle.innerHTML = "title";
+            var tabItem = document.createElement('div');
+            tabItem.className = 'tab-item';
+            tabItem.appendChild(spanHead);
+            tabItem.id = _id;
+            tabItem.appendChild(spanTitle);
+            var _container = document.getElementById('TabDocuments');
+            var jsonString = docs;
+            var formatter = new JSONFormatter(jsonString);
+            var options = {};
+            var editor = new JSONEditor(_container, options);
+            editor.set(jsonString);
+            tabItem.appendChild(formatter.render());
+            _container.appendChild(tabItem);
+        }
+        else {
+            _ele.focus();
+        }
     }
     ViewModule.AddDocuments = AddDocuments;
     function AddTabItem(id, title, navItems) {
@@ -157,7 +176,7 @@ var ViewModule;
         return 'NavServers';
     }
     function GetTabServersId() {
-        return 'TabServers';
+        return 'TabDocuments';
     }
     function AddHeaderMenuElement(element) {
         AddElement(GetHeaderMenuId(), element);

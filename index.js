@@ -31,8 +31,8 @@ ipcRenderer.on(S.Win_main_add_server, function (event, arg) {
                                     var dbId = event.currentTarget.parentElement.id.split(S.JoinDb)[1].split(S.JoinCollection)[0];
                                     var colId = event.currentTarget.parentElement.id.split(S.JoinDb)[1].split(S.JoinCollection)[1];
                                     MM.MainModule.GetCollecionDocuments(sId, dbId, colId, function (docs) {
-                                        var myJsonString = JSON.stringify(docs);
-                                        VW.ViewModule.AddDocuments(docs);
+                                        var id = sId + S.JoinDb + dbId + S.JoinCollection + colId;
+                                        VW.ViewModule.AddDocuments(id, docs);
                                     });
                                 });
                             });

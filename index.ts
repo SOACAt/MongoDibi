@@ -36,8 +36,9 @@ ipcRenderer.on(S.Win_main_add_server, (event: any, arg: any) => {
                                     var colId=event.currentTarget.parentElement.id.split(S.JoinDb)[1].split(S.JoinCollection)[1];
                                         MM.MainModule.GetCollecionDocuments(sId,dbId,colId,(docs: Array<any>) => {
                                             //alert(docs.length);
-                                            var myJsonString = JSON.stringify(docs);
-                                            VW.ViewModule.AddDocuments(docs);
+                                            //var myJsonString = JSON.stringify(docs);
+                                            var id:string=sId + S.JoinDb + dbId + S.JoinCollection + colId;
+                                            VW.ViewModule.AddDocuments(id,docs);
                                         });
                                     
                                 });
