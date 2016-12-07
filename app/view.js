@@ -106,8 +106,7 @@ var ViewModule;
             var jsonString = docs;
             var formatter = new JSONFormatter(jsonString);
             var options = {};
-            var editor = new JSONEditor(tabItem, options);
-            editor.set(jsonString);
+            _container.appendChild(formatter.render());
         }
         else {
             _ele.focus();

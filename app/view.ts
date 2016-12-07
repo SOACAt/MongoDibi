@@ -159,10 +159,10 @@ export module ViewModule {
     var jsonString = docs; // JSON.stringify(docs[0]);
     var formatter = new JSONFormatter(jsonString);
     var options = {};
-    var editor = new JSONEditor(tabItem, options);
-    editor.set(jsonString);
+    /*var editor = new JSONEditor(_container, options);
+    editor.set(jsonString);*/
 
-    //tabItem.appendChild(formatter.render());
+    _container.appendChild(formatter.render());
 
     
 
